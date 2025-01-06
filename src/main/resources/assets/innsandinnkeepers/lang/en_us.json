@@ -4,6 +4,10 @@
 
   "text.autoconfig.villagerunknown-innsandinnkeepers.category.General": "General",
 
-  "text.autoconfig.villagerunknown-innsandinnkeepers.option.radius": "Radius"
+  "text.autoconfig.villagerunknown-innsandinnkeepers.option.radius": "Radius",
+
+  "container.fireplace": "Fireplace",
+
+  "block.villagerunknown-innsandinnkeepers.fireplace": "Fireplace"
 
 }
