@@ -110,7 +110,7 @@ public class innkeeperVillagerFeature {
 			));
 			
 			ItemStack water = new ItemStack( Items.POTION );
-			water.set(DataComponentTypes.CUSTOM_NAME, Text.translatable( "item.minecraft.potion.effect.water" ) );
+			water.set(DataComponentTypes.ITEM_NAME, Text.translatable( "item.minecraft.potion.effect.water" ) );
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 6 ),
 					water,
@@ -242,7 +242,7 @@ public class innkeeperVillagerFeature {
 	private static ItemStack createPotionStack( Text name, RegistryEntry<Potion> potionEffect ) {
 		ItemStack potion = new ItemStack( Items.POTION );
 		
-		potion.set(DataComponentTypes.CUSTOM_NAME, name );
+		potion.set(DataComponentTypes.ITEM_NAME, name );
 		potion.set(DataComponentTypes.POTION_CONTENTS, new PotionContentsComponent(potionEffect));
 		
 		return potion;
