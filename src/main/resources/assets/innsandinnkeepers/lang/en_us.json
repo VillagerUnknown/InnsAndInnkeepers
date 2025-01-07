@@ -8,6 +8,8 @@
 
   "container.fireplace": "Fireplace",
 
+  "entity.minecraft.villager.innkeeper": "Innkeeper",
+
   "block.villagerunknown-innsandinnkeepers.fireplace": "Fireplace"
 
 }
