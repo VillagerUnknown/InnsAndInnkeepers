@@ -11,6 +11,7 @@ import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
+import net.minecraft.entity.ai.brain.task.ScheduleActivityTask;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -84,7 +85,7 @@ public class innkeeperVillagerFeature {
 	private static void registerVillagerProfession() {
 		Predicate<RegistryEntry<PointOfInterestType>> predicate = (entry) -> entry.matchesKey( INNKEEPER_POI_TYPE_REGISTRY_KEY );
 		
-		INNKEEPER_PROFESSION = new VillagerProfession( INNKEEPER_STRING, predicate, predicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_SHEPHERD );
+		INNKEEPER_PROFESSION = new VillagerProfession( INNKEEPER_STRING, predicate, predicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ITEM_FIRECHARGE_USE );
 		
 		Registry.register( Registries.VILLAGER_PROFESSION, INNKEEPER_IDENTIFIER, INNKEEPER_PROFESSION );
 		

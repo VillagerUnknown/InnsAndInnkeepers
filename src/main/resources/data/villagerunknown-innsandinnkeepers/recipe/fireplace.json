@@ -10,7 +10,7 @@
       "item": "minecraft:bricks"
     },
     "C": {
-      "tag": "minecraft:logs"
+      "tag": "minecraft:logs_that_burn"
     }
   },
   "result": {

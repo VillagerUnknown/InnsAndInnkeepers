@@ -48,16 +48,15 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 	
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return validateTicker(world, type, fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY);
+		return validateTicker( type, fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY, FireplaceBlockEntity::tick );
 	}
 	
 	protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof FireplaceBlockEntity) {
-			player.openHandledScreen((NamedScreenHandlerFactory)blockEntity);
-			player.incrementStat(Stats.INTERACT_WITH_SMOKER);
-		}
-		
+//		BlockEntity blockEntity = world.getBlockEntity(pos);
+//		if (blockEntity instanceof FireplaceBlockEntity) {
+//			player.openHandledScreen((NamedScreenHandlerFactory)blockEntity);
+//			player.incrementStat(Stats.INTERACT_WITH_SMOKER);
+//		}
 	}
 	
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
