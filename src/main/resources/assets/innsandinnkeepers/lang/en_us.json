@@ -10,6 +10,9 @@
 
   "entity.minecraft.villager.innkeeper": "Innkeeper",
 
-  "block.villagerunknown-innsandinnkeepers.fireplace": "Fireplace"
+  "block.villagerunknown-innsandinnkeepers.fireplace": "Fireplace",
 
+  "item.villagerunknown-innsandinnkeepers.hearthstone": "Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.bind": "Crouch and Interact with a Fireplace to bind this Hearthstone.",
+  "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.teleport": "Interact with this Hearthstone to return to the bound Fireplace."
 }

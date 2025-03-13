@@ -1,6 +1,7 @@
 package me.villagerunknown.innsandinnkeepers;
 
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
+import me.villagerunknown.innsandinnkeepers.feature.hearthstoneItemFeature;
 import me.villagerunknown.innsandinnkeepers.feature.innkeeperVillagerFeature;
 import me.villagerunknown.platform.Platform;
 import me.villagerunknown.platform.PlatformMod;
@@ -34,7 +35,7 @@ public class Innsandinnkeepers implements ModInitializer {
 		// # Activate Features
 		featureManager.addFeature( "fireplaceBlock", fireplaceBlockFeature::execute );
 		featureManager.addFeature( "innkeeperVillager", innkeeperVillagerFeature::execute );
-//		featureManager.addFeature( "hearthstoneItem", hearthstoneItemFeature::execute );
+		featureManager.addFeature( "hearthstoneItem", hearthstoneItemFeature::execute );
 	}
 	
 }

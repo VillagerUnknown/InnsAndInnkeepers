@@ -96,6 +96,27 @@ public class innkeeperVillagerFeature {
 		// # Level 1
 		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 1, f -> {
 			f.add( (entity, random) -> new TradeOffer(
+					new TradedItem( Items.EMERALD, 16 ),
+					new ItemStack( hearthstoneItemFeature.HEARTHSTONE_ITEM, 1 ),
+					DEFAULT_MAX_USES,
+					NOVICE_BUY_XP,
+					LOW_PRICE_MULTIPLIER
+			));
+			
+			ItemStack water = new ItemStack( Items.POTION );
+			water.set(DataComponentTypes.ITEM_NAME, Text.translatable( "item.minecraft.potion.effect.water" ) );
+			f.add( (entity, random) -> new TradeOffer(
+					new TradedItem( Items.EMERALD, 3 ),
+					water,
+					DEFAULT_MAX_USES,
+					NOVICE_BUY_XP,
+					LOW_PRICE_MULTIPLIER
+			));
+		} );
+		
+		// # Level 2
+		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 2, f -> {
+			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 6 ),
 					new ItemStack( Items.BREAD, 12 ),
 					DEFAULT_MAX_USES,
@@ -109,20 +130,10 @@ public class innkeeperVillagerFeature {
 					NOVICE_BUY_XP,
 					LOW_PRICE_MULTIPLIER
 			));
-			
-			ItemStack water = new ItemStack( Items.POTION );
-			water.set(DataComponentTypes.ITEM_NAME, Text.translatable( "item.minecraft.potion.effect.water" ) );
-			f.add( (entity, random) -> new TradeOffer(
-					new TradedItem( Items.EMERALD, 6 ),
-					water,
-					DEFAULT_MAX_USES,
-					NOVICE_BUY_XP,
-					LOW_PRICE_MULTIPLIER
-			));
 		} );
 		
-		// # Level 2
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 2, f -> {
+		// # Level 3
+		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 3, f -> {
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 8 ),
 					new ItemStack( Items.COOKED_COD, 6 ),
@@ -169,8 +180,8 @@ public class innkeeperVillagerFeature {
 			));
 		} );
 		
-		// # Level 3
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 3, f -> {
+		// # Level 4
+		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 4, f -> {
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 12 ),
 					new ItemStack( Items.COOKED_BEEF, 6 ),
@@ -210,8 +221,8 @@ public class innkeeperVillagerFeature {
 			));
 		} );
 		
-		// # Level 4
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 4, f -> {
+		// # Level 5
+		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 5, f -> {
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 16 ),
 					new ItemStack( Items.GOLDEN_CARROT, 6 ),
@@ -226,13 +237,16 @@ public class innkeeperVillagerFeature {
 					EXPERT_BUY_XP,
 					HIGH_PRICE_MULTIPLIER
 			));
-		} );
-		
-		// # Level 5
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 5, f -> {
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 32 ),
 					new ItemStack( Items.GOLDEN_APPLE, 1 ),
+					RARE_MAX_USES,
+					MASTER_TRADE_XP,
+					HIGH_PRICE_MULTIPLIER
+			));
+			f.add( (entity, random) -> new TradeOffer(
+					new TradedItem( Items.EMERALD, 64 ),
+					new ItemStack( Items.ENCHANTED_GOLDEN_APPLE, 1 ),
 					RARE_MAX_USES,
 					MASTER_TRADE_XP,
 					HIGH_PRICE_MULTIPLIER

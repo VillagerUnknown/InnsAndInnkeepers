@@ -116,7 +116,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		boolean bl4 = !itemStack.isEmpty();
 		if (blockEntity.isBurning()) {
 			RecipeEntry<?> recipeEntry = blockEntity.matchGetter.getFirstMatch(new SingleStackRecipeInput(itemStack2), world).orElse(null);
-			Innsandinnkeepers.LOGGER.info( "Recipe: " + recipeEntry );
+//			Innsandinnkeepers.LOGGER.info( "Recipe: " + recipeEntry );
 			int i = blockEntity.getMaxCountPerStack();
 
 			if (blockEntity.isCooking() && canAcceptRecipeOutput(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
