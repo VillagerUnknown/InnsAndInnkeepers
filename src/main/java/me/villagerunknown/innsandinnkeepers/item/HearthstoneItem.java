@@ -113,6 +113,15 @@ public class HearthstoneItem extends Item {
 		tooltip.add( Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.bind" ) );
 		tooltip.add( Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.teleport" ) );
 		
+		LodestoneTrackerComponent lodestoneTrackerComponent = (LodestoneTrackerComponent)stack.get(DataComponentTypes.LODESTONE_TRACKER);
+		if (lodestoneTrackerComponent != null) {
+			if( lodestoneTrackerComponent.target().isPresent() ) {
+				BlockPos pos = lodestoneTrackerComponent.target().get().pos();
+				
+				tooltip.addLast( Text.of( "Bound to: " + pos.getX() + " " + pos.getY() + " " + pos.getZ() ) );
+			} // if
+		} // if
+		
 		super.appendTooltip(stack, context, tooltip, type);
 	}
 	
