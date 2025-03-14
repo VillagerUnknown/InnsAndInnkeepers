@@ -3,6 +3,7 @@ package me.villagerunknown.innsandinnkeepers.block;
 import com.mojang.serialization.MapCodec;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
+import me.villagerunknown.platform.util.MathUtil;
 import me.villagerunknown.platform.util.TimeUtil;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.AbstractFurnaceBlock;
@@ -13,6 +14,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -77,7 +79,13 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 				} // for
 			} // if
 			
-			world.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, d, e + 0.1, f, 0.0, 0.005, 0.0);
+			SimpleParticleType particleType = ParticleTypes.CAMPFIRE_COSY_SMOKE;
+			
+			if( e > (double) MAX_BLOCKS_SMOKE_PASSES_THROUGH / 2 ) {
+				particleType = ParticleTypes.CAMPFIRE_SIGNAL_SMOKE;
+			} // if
+			
+			world.addParticle( particleType, d, e + 0.1, f, 0.0, 0.005, 0.0);
 		}
 	}
 	
