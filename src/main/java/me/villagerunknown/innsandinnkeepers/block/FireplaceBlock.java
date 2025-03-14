@@ -67,7 +67,7 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 			double e = (double)pos.up().getY();
 			double f = (double)pos.getZ() + 0.5;
 			if (random.nextDouble() < 0.1) {
-				world.playSound(d, e, f, SoundEvents.BLOCK_SMOKER_SMOKE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+				world.playSound(d, e, f, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 			}
 			
 			if( !world.isAir( pos.up() ) ) {
