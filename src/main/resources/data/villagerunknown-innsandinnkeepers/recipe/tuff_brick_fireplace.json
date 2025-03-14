@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "pattern": [
     "###",
     "#C#",
@@ -8,14 +7,14 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:bricks"
+      "item": "minecraft:tuff_bricks"
     },
     "C": {
-      "tag": "minecraft:logs"
+      "item": "minecraft:campfire"
     }
   },
   "result": {
-    "count": 1,
-    "id": "villagerunknown-innsandinnkeepers:fireplace"
+    "id": "villagerunknown-innsandinnkeepers:tuff_brick_fireplace",
+    "count": 1
   }
 }

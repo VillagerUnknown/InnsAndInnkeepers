@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "bottom": "minecraft:block/mossy_stone_bricks",
+    "front": "villagerunknown-innsandinnkeepers:block/mossy_stone_brick_fireplace_front",
+    "side": "minecraft:block/mossy_stone_bricks",
+    "top": "villagerunknown-innsandinnkeepers:block/mossy_stone_brick_fireplace_top"
+  }
+}

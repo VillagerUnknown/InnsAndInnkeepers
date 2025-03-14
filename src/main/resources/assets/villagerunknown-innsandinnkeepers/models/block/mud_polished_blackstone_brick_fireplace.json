@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "bottom": "minecraft:block/mud_polished_blackstone_bricks",
+    "front": "villagerunknown-innsandinnkeepers:block/mud_polished_blackstone_brick_fireplace_front",
+    "side": "minecraft:block/mud_polished_blackstone_bricks",
+    "top": "villagerunknown-innsandinnkeepers:block/mud_polished_blackstone_brick_fireplace_top"
+  }
+}

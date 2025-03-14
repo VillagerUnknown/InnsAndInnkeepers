@@ -60,14 +60,22 @@ public class HearthstoneItem extends Item {
 		
 		BlockPos blockPos = context.getBlockPos();
 		
-		if( world.getBlockState( blockPos ).isOf(fireplaceBlockFeature.FIREPLACE_BLOCK ) ) {
+		if(
+				world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "brick_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "stone_brick_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mossy_stone_brick_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "deepslate_brick_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "tuff_brick_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mud_brick_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "polished_blackstone_brick_fireplace" ) )
+		) {
 			world.playSound((PlayerEntity)null, blockPos, SoundEvents.ENTITY_ALLAY_AMBIENT_WITH_ITEM, SoundCategory.PLAYERS, 1.0F, 1.0F);
-			
+
 			ItemStack itemStack = context.getStack();
-			
+
 			LodestoneTrackerComponent lodestoneTrackerComponent = new LodestoneTrackerComponent(Optional.of(GlobalPos.create(world.getRegistryKey(), blockPos)), false);
 			itemStack.set(DataComponentTypes.LODESTONE_TRACKER, lodestoneTrackerComponent);
-			
+
 			if( null != context.getPlayer() ) {
 				MessageUtil.sendChatMessage(context.getPlayer(), "Hearthstone bound.");
 			} // if

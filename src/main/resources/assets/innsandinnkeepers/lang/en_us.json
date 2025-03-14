@@ -10,7 +10,13 @@
 
   "entity.minecraft.villager.innkeeper": "Innkeeper",
 
-  "block.villagerunknown-innsandinnkeepers.fireplace": "Fireplace",
+  "block.villagerunknown-innsandinnkeepers.brick_fireplace": "Brick Fireplace",
+  "block.villagerunknown-innsandinnkeepers.stone_brick_fireplace": "Stone Brick Fireplace",
+  "block.villagerunknown-innsandinnkeepers.mossy_stone_brick_fireplace": "Mossy Stone Brick Fireplace",
+  "block.villagerunknown-innsandinnkeepers.deepslate_brick_fireplace": "Deepslate Brick Fireplace",
+  "block.villagerunknown-innsandinnkeepers.tuff_brick_fireplace": "Tuff Brick Fireplace",
+  "block.villagerunknown-innsandinnkeepers.mud_brick_fireplace": "Mud Brick Fireplace",
+  "block.villagerunknown-innsandinnkeepers.polished_blackstone_brick_fireplace": "Polished Blackstone Brick Fireplace",
 
   "item.villagerunknown-innsandinnkeepers.hearthstone": "Hearthstone",
   "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.bind": "Crouch and Interact with a Fireplace to bind this Hearthstone.",

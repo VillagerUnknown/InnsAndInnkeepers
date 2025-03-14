@@ -7,14 +7,14 @@
   ],
   "key": {
     "#": {
-      "item": "minecraft:bricks"
+      "item": "minecraft:mossy_stone_bricks"
     },
     "C": {
-      "tag": "minecraft:logs_that_burn"
+      "item": "minecraft:campfire"
     }
   },
   "result": {
-    "id": "villagerunknown-innsandinnkeepers:fireplace",
+    "id": "villagerunknown-innsandinnkeepers:mossy_stone_brick_fireplace",
     "count": 1
   }
 }

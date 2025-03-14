@@ -72,7 +72,11 @@ public class innkeeperVillagerFeature {
 	}
 	
 	private static void registerPointOfInterest() {
-		Set<BlockState> blockStates = ImmutableSet.copyOf(fireplaceBlockFeature.FIREPLACE_BLOCK.getStateManager().getStates());
+		Set<BlockState> blockStates = new HashSet<>();
+		
+		fireplaceBlockFeature.BLOCKS.forEach( ( id, block ) -> {
+			blockStates.addAll( block.getStateManager().getStates() );
+		} );
 		
 		INNKEEPER_POI_TYPE = PointOfInterestHelper.register( INNKEEPER_IDENTIFIER, 1, 1, blockStates );
 		
