@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "bottom": "minecraft:block/cobbled_deepslate",
+    "front": "villagerunknown-innsandinnkeepers:block/cobbled_deepslate_fireplace_front_on",
+    "side": "minecraft:block/cobbled_deepslate",
+    "top": "villagerunknown-innsandinnkeepers:block/cobbled_deepslate_fireplace_top"
+  }
+}

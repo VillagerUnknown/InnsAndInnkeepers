@@ -23,6 +23,7 @@ public class fireplaceBlockFeature {
 	
 	private static final List<String> blockTypes = new ArrayList<>(List.of(
 			"cobblestone",
+			"cobbled_deepslate",
 			"mossy_cobblestone",
 			"brick",
 			"stone_brick",
@@ -66,6 +67,7 @@ public class fireplaceBlockFeature {
 		FIREPLACE_BLOCK_ENTITY = BlockEntityType.Builder.create(
 				FireplaceBlockEntity::new,
 				BLOCKS.get( "cobblestone_fireplace" ),
+				BLOCKS.get( "cobbled_deepslate_fireplace" ),
 				BLOCKS.get( "mossy_cobblestone_fireplace" ),
 				BLOCKS.get( "brick_fireplace" ),
 				BLOCKS.get( "stone_brick_fireplace" ),

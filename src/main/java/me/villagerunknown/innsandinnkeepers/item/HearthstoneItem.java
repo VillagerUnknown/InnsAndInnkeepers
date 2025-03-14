@@ -21,6 +21,7 @@ import net.minecraft.particle.ParticleUtil;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -36,6 +37,7 @@ import java.util.Optional;
 public class HearthstoneItem extends Item {
 	
 	private static final int MAX_USE_TIME = 80;
+	private static final int COOLDOWN_TIME = 1000;
 	
 	public HearthstoneItem(Settings settings) {
 		super(settings);
@@ -44,7 +46,7 @@ public class HearthstoneItem extends Item {
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
 		if( !world.isClient && remainingUseTicks > 0 ) {
-			EntityUtil.spawnParticles( user, 1, ParticleTypes.PORTAL, 1, 0.05, 0.05, 0.05, 0.05);
+			EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 1, 0.05, 0.05, 0.05, 0.05);
 		} // if
 		
 		super.usageTick(world, user, stack, remainingUseTicks);
@@ -61,7 +63,10 @@ public class HearthstoneItem extends Item {
 		BlockPos blockPos = context.getBlockPos();
 		
 		if(
-				world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "brick_fireplace" ) )
+				world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "cobblestone_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "cobbled_deepslate_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mossy_cobblestone_fireplace" ) )
+				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "brick_fireplace" ) )
 				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "stone_brick_fireplace" ) )
 				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mossy_stone_brick_fireplace" ) )
 				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "deepslate_brick_fireplace" ) )
@@ -101,6 +106,11 @@ public class HearthstoneItem extends Item {
 				BlockPos pos = PositionUtil.findSafeSpawnPosition( world, lodestoneTrackerComponent.target().get().pos(), 2);
 				
 				user.teleport(pos.getX(), pos.getY(), pos.getZ(), true);
+				
+				if( user instanceof PlayerEntity player ) {
+					player.getItemCooldownManager().set(this, COOLDOWN_TIME);
+					player.incrementStat(Stats.USED.getOrCreateStat(this));
+				}
 			} // if
 		} // if
 		
@@ -128,7 +138,9 @@ public class HearthstoneItem extends Item {
 				
 				tooltip.addLast( Text.of( "Bound to: " + pos.getX() + " " + pos.getY() + " " + pos.getZ() ) );
 			} // if
-		} // if
+		} else {
+			tooltip.addLast( Text.of( "Not bound" ) );
+		} // if, else
 		
 		super.appendTooltip(stack, context, tooltip, type);
 	}
