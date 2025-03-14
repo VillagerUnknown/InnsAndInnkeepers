@@ -26,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class FireplaceBlock extends AbstractFurnaceBlock {
 	
-	private static final int MAX_BLOCKS_SMOKE_PASSES_THROUGH = 16;
+	public static final int MAX_BLOCKS_SMOKE_PASSES_THROUGH = 16;
 	
 	public static final MapCodec<FireplaceBlock> CODEC = createCodec(FireplaceBlock::new);
 	
@@ -68,25 +68,8 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 			double f = (double)pos.getZ() + 0.5;
 			if (random.nextDouble() < 0.1) {
 				world.playSound(d, e, f, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-			}
-			
-			if( !world.isAir( pos.up() ) ) {
-				for (int i = 2; i < MAX_BLOCKS_SMOKE_PASSES_THROUGH + 2; i++) {
-					if( world.isAir( pos.up( i ) ) ) {
-						e = pos.up( i ).getY();
-						break;
-					} // if
-				} // for
 			} // if
-			
-			SimpleParticleType particleType = ParticleTypes.CAMPFIRE_COSY_SMOKE;
-			
-			if( e > (double) MAX_BLOCKS_SMOKE_PASSES_THROUGH / 2 ) {
-				particleType = ParticleTypes.CAMPFIRE_SIGNAL_SMOKE;
-			} // if
-			
-			world.addParticle( particleType, d, e + 0.1, f, 0.0, 0.005, 0.0);
-		}
+		} // if
 	}
 	
 }

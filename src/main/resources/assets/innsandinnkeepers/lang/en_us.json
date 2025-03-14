@@ -10,6 +10,8 @@
 
   "entity.minecraft.villager.innkeeper": "Innkeeper",
 
+  "block.villagerunknown-innsandinnkeepers.cobblestone_fireplace": "Cobblestone Fireplace",
+  "block.villagerunknown-innsandinnkeepers.mossy_cobblestone_fireplace": "Mossy Cobblestone Fireplace",
   "block.villagerunknown-innsandinnkeepers.brick_fireplace": "Brick Fireplace",
   "block.villagerunknown-innsandinnkeepers.stone_brick_fireplace": "Stone Brick Fireplace",
   "block.villagerunknown-innsandinnkeepers.mossy_stone_brick_fireplace": "Mossy Stone Brick Fireplace",

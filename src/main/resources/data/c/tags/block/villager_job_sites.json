@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
+    "villagerunknown-innsandinnkeepers:cobblestone_fireplace",
+    "villagerunknown-innsandinnkeepers:mossy_cobblestone_fireplace",
     "villagerunknown-innsandinnkeepers:brick_fireplace",
     "villagerunknown-innsandinnkeepers:stone_brick_fireplace",
     "villagerunknown-innsandinnkeepers:mossy_stone_brick_fireplace",

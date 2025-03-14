@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/orientable_with_bottom",
-  "textures": {
-    "bottom": "minecraft:block/mud_mud_bricks",
-    "front": "villagerunknown-innsandinnkeepers:block/mud_mud_brick_fireplace_front",
-    "side": "minecraft:block/mud_mud_bricks",
-    "top": "villagerunknown-innsandinnkeepers:block/mud_mud_brick_fireplace_top"
-  }
-}

@@ -5,8 +5,10 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
+import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
 import me.villagerunknown.innsandinnkeepers.screen.FireplaceScreenHandler;
+import me.villagerunknown.platform.util.MathUtil;
 import me.villagerunknown.platform.util.TimeUtil;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
@@ -19,6 +21,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleType;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.registry.DynamicRegistryManager;
@@ -27,12 +32,15 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.SmokerScreenHandler;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -146,7 +154,36 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		if( bl2 ) {
 			markDirty(world, pos, state);
 		}
-
+		
+		if( (Boolean)state.get(FireplaceBlock.LIT) && MathUtil.hasChance( 0.33F ) ) {
+			double d = (double)pos.getX() + 0.5;
+			double e = (double)pos.up().getY();
+			double f = (double)pos.getZ() + 0.5;
+			
+			if( !world.isAir( pos.up() ) ) {
+				for (int i = 2; i < FireplaceBlock.MAX_BLOCKS_SMOKE_PASSES_THROUGH + 2; i++) {
+					if( world.isAir( pos.up( i ) ) ) {
+						e = pos.up( i ).getY();
+						break;
+					} // if
+				} // for
+			} // if
+			
+			SimpleParticleType particleType = ParticleTypes.CAMPFIRE_COSY_SMOKE;
+			
+			if( MathUtil.hasChance( 0.01F ) ) {
+				particleType = ParticleTypes.CAMPFIRE_SIGNAL_SMOKE;
+			}
+			
+			Random random = Random.create();
+			
+			world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
+			
+			if( e > (double) FireplaceBlock.MAX_BLOCKS_SMOKE_PASSES_THROUGH / 2 ) {
+				world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
+			} // if
+		} // if
+		
 	}
 	
 	private boolean isBurning() {

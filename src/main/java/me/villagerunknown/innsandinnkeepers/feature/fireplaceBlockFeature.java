@@ -22,6 +22,8 @@ import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
 public class fireplaceBlockFeature {
 	
 	private static final List<String> blockTypes = new ArrayList<>(List.of(
+			"cobblestone",
+			"mossy_cobblestone",
 			"brick",
 			"stone_brick",
 			"mossy_stone_brick",
@@ -63,6 +65,8 @@ public class fireplaceBlockFeature {
 	private static void registerBlockEntityType() {
 		FIREPLACE_BLOCK_ENTITY = BlockEntityType.Builder.create(
 				FireplaceBlockEntity::new,
+				BLOCKS.get( "cobblestone_fireplace" ),
+				BLOCKS.get( "mossy_cobblestone_fireplace" ),
 				BLOCKS.get( "brick_fireplace" ),
 				BLOCKS.get( "stone_brick_fireplace" ),
 				BLOCKS.get( "mossy_stone_brick_fireplace" ),
