@@ -7,7 +7,8 @@ Adds Inns and Innkeeper Villagers to world generation. Includes Hearthstone item
 In addition to offering food and drinks, the Innkeeper sells a Hearthstone that allows players to teleport to a bound Fireplace. 
 
 **Custom Blocks**
-* **Fireplace** - The Fireplace allows players to set their Hearthstone teleport location.
+* **Fireplace** - The Fireplace, the Innkeeper's workstation, is always lit and allows players to set their Hearthstone's teleport location. 
+The smoke from Fireplaces go through the blocks above allowing players to build functional chimneys! (Up to 16 blocks) 
 
 **Custom Items**
 * **Hearthstone** - The Hearthstone is a non-stackable item that can be bound to a Fireplace. 
