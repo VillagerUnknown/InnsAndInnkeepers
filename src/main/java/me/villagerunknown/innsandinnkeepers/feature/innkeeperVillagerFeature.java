@@ -100,7 +100,7 @@ public class innkeeperVillagerFeature {
 		// # Level 1
 		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 1, f -> {
 			f.add( (entity, random) -> new TradeOffer(
-					new TradedItem( Items.EMERALD, 16 ),
+					new TradedItem( Items.EMERALD, 6 ),
 					new ItemStack( hearthstoneItemFeature.HEARTHSTONE_ITEM, 1 ),
 					DEFAULT_MAX_USES,
 					NOVICE_BUY_XP,
