@@ -7,7 +7,7 @@
         "element_type": "minecraft:single_pool_element",
         "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-1",
         "projection": "rigid",
-        "processors": "minecraft:empty"
+        "processors": "minecraft:mossify_10_percent"
       }
     },
     {
@@ -16,7 +16,16 @@
         "element_type": "minecraft:single_pool_element",
         "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-2",
         "projection": "rigid",
-        "processors": "minecraft:empty"
+        "processors": "minecraft:mossify_10_percent"
+      }
+    },
+    {
+      "weight": 150,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-3",
+        "projection": "rigid",
+        "processors": "minecraft:mossify_10_percent"
       }
     }
   ]
