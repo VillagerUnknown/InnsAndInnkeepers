@@ -6,6 +6,8 @@
 
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.radius": "Radius",
 
+  "tag.item.villagerunknown-innsandinnkeepers.fireplace": "Fireplace",
+
   "container.fireplace": "Fireplace",
 
   "entity.minecraft.villager.innkeeper": "Innkeeper",

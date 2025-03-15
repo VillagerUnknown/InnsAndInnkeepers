@@ -136,10 +136,10 @@ public class HearthstoneItem extends Item {
 			if( lodestoneTrackerComponent.target().isPresent() ) {
 				BlockPos pos = lodestoneTrackerComponent.target().get().pos();
 				
-				tooltip.addLast( Text.of( "Bound to: " + pos.getX() + " " + pos.getY() + " " + pos.getZ() ) );
+				tooltip.addLast( Text.of( "(Bound to: " + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );
 			} // if
 		} else {
-			tooltip.addLast( Text.of( "Not bound" ) );
+			tooltip.addLast( Text.of( "(Not bound)" ) );
 		} // if, else
 		
 		super.appendTooltip(stack, context, tooltip, type);

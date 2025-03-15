@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "villagerunknown-innsandinnkeepers:plains_inn",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 24,
+    "separation": 16,
+    "salt": 10387313
+  }
+}
