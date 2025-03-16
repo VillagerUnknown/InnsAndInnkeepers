@@ -54,6 +54,60 @@
         "projection": "rigid",
         "processors": "villagerunknown-innsandinnkeepers:mossy_cobblestone"
       }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-4",
+        "projection": "rigid",
+        "processors": "minecraft:mossify_10_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-4",
+        "projection": "rigid",
+        "processors": "villagerunknown-innsandinnkeepers:mossy_cobblestone"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-5",
+        "projection": "rigid",
+        "processors": "minecraft:mossify_10_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-5",
+        "projection": "rigid",
+        "processors": "villagerunknown-innsandinnkeepers:mossy_cobblestone"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-6",
+        "projection": "rigid",
+        "processors": "minecraft:mossify_10_percent"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-6",
+        "projection": "rigid",
+        "processors": "villagerunknown-innsandinnkeepers:mossy_cobblestone"
+      }
     }
   ]
 }

@@ -27,6 +27,33 @@
         "projection": "rigid",
         "processors": "villagerunknown-innsandinnkeepers:birch"
       }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-4",
+        "projection": "rigid",
+        "processors": "villagerunknown-innsandinnkeepers:birch"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-5",
+        "projection": "rigid",
+        "processors": "villagerunknown-innsandinnkeepers:birch"
+      }
+    },
+    {
+      "weight": 1,
+      "element": {
+        "element_type": "minecraft:single_pool_element",
+        "location": "villagerunknown-innsandinnkeepers:inns/plains_cobblestone_inn-6",
+        "projection": "rigid",
+        "processors": "villagerunknown-innsandinnkeepers:birch"
+      }
     }
   ]
 }
