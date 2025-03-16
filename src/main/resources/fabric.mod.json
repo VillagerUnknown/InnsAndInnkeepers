@@ -3,10 +3,10 @@
   "id": "villagerunknown-innsandinnkeepers",
   "version": "${version}",
   "name": "VillagerUnknown's Inns & Innkeepers",
-  "description": "Adds Inns and Innkeepers to world generation. Includes Hearthstone item to allow players to return to a bound Inn.",
+  "description": "Adds Inns and Innkeepers to world generation. Includes Hearthstone item to allow players to return to a bound Fireplace.",
   "authors": ["VillagerUnknown"],
   "contact": {
-    "homepage":"https://discord.gg/PXjXh6M38H"
+    "homepage":"https://github.com/VillagerUnknown/InnsAndInnkeepers"
   },
   "license": "CC-BY-4.0",
   "icon": "assets/innsandinnkeepers/villagerunknown-inns-and-innkeepers.png",
@@ -38,7 +38,7 @@
   "custom": {
     "modmenu": {
       "links": {
-        "modmenu.discord": "https://discord.gg/PXjXh6M38H"
+        "modmenu.discord": "https://github.com/VillagerUnknown/InnsAndInnkeepers"
       }
     }
   }
