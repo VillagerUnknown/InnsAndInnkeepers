@@ -2,10 +2,7 @@ package me.villagerunknown.innsandinnkeepers.item;
 
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
-import me.villagerunknown.platform.util.EntityUtil;
-import me.villagerunknown.platform.util.MessageUtil;
-import me.villagerunknown.platform.util.PlayerUtil;
-import me.villagerunknown.platform.util.PositionUtil;
+import me.villagerunknown.platform.util.*;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LodestoneTrackerComponent;
 import net.minecraft.entity.LivingEntity;
@@ -15,9 +12,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.ParticleUtil;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -45,44 +46,46 @@ public class HearthstoneItem extends Item {
 	
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-		if( !world.isClient && remainingUseTicks > 0 ) {
-			EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 1, 0.05, 0.05, 0.05, 0.05);
+		if( !world.isClient ) {
+			if( remainingUseTicks > 0 ) {
+				EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 1, 0.05, 0.05, 0.05, 0.05);
+			} else {
+				user.stopUsingItem();
+			} // if, else
 		} // if
-		
-		super.usageTick(world, user, stack, remainingUseTicks);
 	}
 	
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		World world = context.getWorld();
 		
-		if( world.isClient() ) {
-			return super.useOnBlock(context);
-		}
-		
-		BlockPos blockPos = context.getBlockPos();
-		
-		if(
-				world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "cobblestone_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "cobbled_deepslate_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mossy_cobblestone_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "brick_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "stone_brick_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mossy_stone_brick_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "deepslate_brick_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "tuff_brick_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mud_brick_fireplace" ) )
-				|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "polished_blackstone_brick_fireplace" ) )
-		) {
-			world.playSound((PlayerEntity)null, blockPos, SoundEvents.ENTITY_ALLAY_AMBIENT_WITH_ITEM, SoundCategory.PLAYERS, 1.0F, 1.0F);
-
-			ItemStack itemStack = context.getStack();
-
-			LodestoneTrackerComponent lodestoneTrackerComponent = new LodestoneTrackerComponent(Optional.of(GlobalPos.create(world.getRegistryKey(), blockPos)), false);
-			itemStack.set(DataComponentTypes.LODESTONE_TRACKER, lodestoneTrackerComponent);
-
-			if( null != context.getPlayer() ) {
-				MessageUtil.sendChatMessage(context.getPlayer(), "Hearthstone bound.");
+		if( !world.isClient() ) {
+			BlockPos blockPos = context.getBlockPos();
+			
+			if(
+					world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "cobblestone_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "cobbled_deepslate_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mossy_cobblestone_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "brick_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "stone_brick_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mossy_stone_brick_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "deepslate_brick_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "tuff_brick_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "mud_brick_fireplace" ) )
+					|| world.getBlockState( blockPos ).isOf( fireplaceBlockFeature.BLOCKS.get( "polished_blackstone_brick_fireplace" ) )
+			) {
+				world.playSound((PlayerEntity)null, blockPos, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+				
+				ItemStack itemStack = context.getStack();
+				
+				LodestoneTrackerComponent lodestoneTrackerComponent = new LodestoneTrackerComponent(Optional.of(GlobalPos.create(world.getRegistryKey(), blockPos)), false);
+				itemStack.set(DataComponentTypes.LODESTONE_TRACKER, lodestoneTrackerComponent);
+				
+				if( null != context.getPlayer() ) {
+					MessageUtil.sendChatMessage(context.getPlayer(), "Hearthstone bound.");
+				} // if
+				
+				return ActionResult.success(world.isClient);
 			} // if
 		} // if
 		
@@ -91,30 +94,46 @@ public class HearthstoneItem extends Item {
 	
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-		return ItemUsage.consumeHeldItem(world, user, hand);
+		if( !world.isClient() ) {
+			world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+			
+			return ItemUsage.consumeHeldItem(world, user, hand);
+		} // if
+		
+		return TypedActionResult.pass(user.getStackInHand( hand ));
 	}
 	
 	@Override
 	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-		if( world.isClient() || user.isSneaking() ) {
-			return super.finishUsing(stack, world, user);
-		}
+		ItemStack itemStack = super.finishUsing(stack, world, user);
 		
-		LodestoneTrackerComponent lodestoneTrackerComponent = (LodestoneTrackerComponent)stack.get(DataComponentTypes.LODESTONE_TRACKER);
-		if (lodestoneTrackerComponent != null) {
-			if( lodestoneTrackerComponent.target().isPresent() ) {
-				BlockPos pos = PositionUtil.findSafeSpawnPosition( world, lodestoneTrackerComponent.target().get().pos(), 2);
-				
-				user.teleport(pos.getX(), pos.getY(), pos.getZ(), true);
-				
-				if( user instanceof PlayerEntity player ) {
-					player.getItemCooldownManager().set(this, COOLDOWN_TIME);
-					player.incrementStat(Stats.USED.getOrCreateStat(this));
-				}
+		if( !world.isClient() ) {
+			LodestoneTrackerComponent lodestoneTrackerComponent = (LodestoneTrackerComponent)stack.get(DataComponentTypes.LODESTONE_TRACKER);
+			if (lodestoneTrackerComponent != null) {
+				if( lodestoneTrackerComponent.target().isPresent() ) {
+					MinecraftServer server = world.getServer();
+					RegistryKey<World> dimension = lodestoneTrackerComponent.target().get().dimension();
+					
+					if( null != server ) {
+						ServerWorld dimWorld = server.getWorld( dimension );
+						
+						BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, lodestoneTrackerComponent.target().get().pos(), 1);
+						
+						world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+						user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.VALUES, user.getYaw(), user.getPitch() );
+						world.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+						EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 20, 0.05, -0.05, 0.05, 0.05);
+						
+						if( user instanceof PlayerEntity player ) {
+							player.getItemCooldownManager().set(this, COOLDOWN_TIME);
+							player.incrementStat(Stats.USED.getOrCreateStat(this));
+						}
+					} // if
+				} // if
 			} // if
 		} // if
 		
-		return super.finishUsing(stack, world, user);
+		return itemStack;
 	}
 	
 	@Override
@@ -135,8 +154,9 @@ public class HearthstoneItem extends Item {
 		if (lodestoneTrackerComponent != null) {
 			if( lodestoneTrackerComponent.target().isPresent() ) {
 				BlockPos pos = lodestoneTrackerComponent.target().get().pos();
+				String dimensionName = StringUtil.capitalize( lodestoneTrackerComponent.target().get().dimension().getValue().getPath().toLowerCase() );
 				
-				tooltip.addLast( Text.of( "(Bound to: " + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );
+				tooltip.addLast( Text.of( "(Bound to: " + dimensionName + " @ "  + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );
 			} // if
 		} else {
 			tooltip.addLast( Text.of( "(Not bound)" ) );
@@ -146,7 +166,7 @@ public class HearthstoneItem extends Item {
 	}
 	
 	public SoundEvent getDrinkSound() {
-		return SoundEvents.ENTITY_ALLAY_AMBIENT_WITH_ITEM;
+		return SoundEvents.BLOCK_BELL_RESONATE;
 	}
 	
 }
