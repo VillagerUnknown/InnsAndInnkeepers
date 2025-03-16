@@ -19,7 +19,7 @@ The smoke from Fireplaces go through blocks above allowing players to build func
 
 * **Hearthstone** - The Hearthstone is a non-stackable item that can be bound to a Fireplace. 
 When a Hearthstone is used by a player it will teleport the player back to the bound Fireplace. 
-Hearthstones have a moderate cooldown and cannot be crafted and can only be purchased from an Innkeeper.
+Hearthstones have a moderate cooldown, cannot be crafted, and can only be purchased from an Innkeeper.
 
 ## Support
 
