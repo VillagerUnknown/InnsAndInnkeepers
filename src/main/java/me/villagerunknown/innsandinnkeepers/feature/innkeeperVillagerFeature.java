@@ -89,7 +89,7 @@ public class innkeeperVillagerFeature {
 	private static void registerVillagerProfession() {
 		Predicate<RegistryEntry<PointOfInterestType>> predicate = (entry) -> entry.matchesKey( INNKEEPER_POI_TYPE_REGISTRY_KEY );
 		
-		INNKEEPER_PROFESSION = new VillagerProfession( INNKEEPER_STRING, predicate, predicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ITEM_FIRECHARGE_USE );
+		INNKEEPER_PROFESSION = new VillagerProfession( INNKEEPER_STRING, predicate, predicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ITEM_FLINTANDSTEEL_USE );
 		
 		Registry.register( Registries.VILLAGER_PROFESSION, INNKEEPER_IDENTIFIER, INNKEEPER_PROFESSION );
 		
@@ -241,20 +241,26 @@ public class innkeeperVillagerFeature {
 					EXPERT_BUY_XP,
 					HIGH_PRICE_MULTIPLIER
 			));
-			f.add( (entity, random) -> new TradeOffer(
-					new TradedItem( Items.EMERALD, 32 ),
-					new ItemStack( Items.GOLDEN_APPLE, 1 ),
-					RARE_MAX_USES,
-					MASTER_TRADE_XP,
-					HIGH_PRICE_MULTIPLIER
-			));
-			f.add( (entity, random) -> new TradeOffer(
-					new TradedItem( Items.EMERALD, 64 ),
-					new ItemStack( Items.ENCHANTED_GOLDEN_APPLE, 1 ),
-					RARE_MAX_USES,
-					MASTER_TRADE_XP,
-					HIGH_PRICE_MULTIPLIER
-			));
+			
+			if( Innsandinnkeepers.CONFIG.enableGoldenAppleTrade ) {
+				f.add((entity, random) -> new TradeOffer(
+						new TradedItem(Items.EMERALD, 32),
+						new ItemStack(Items.GOLDEN_APPLE, 1),
+						RARE_MAX_USES,
+						MASTER_TRADE_XP,
+						HIGH_PRICE_MULTIPLIER
+				));
+			} // if
+			
+			if( Innsandinnkeepers.CONFIG.enableEnchantedGoldenAppleTrade ) {
+				f.add((entity, random) -> new TradeOffer(
+						new TradedItem(Items.EMERALD, 64),
+						new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, 1),
+						RARE_MAX_USES,
+						MASTER_TRADE_XP,
+						HIGH_PRICE_MULTIPLIER
+				));
+			} // if
 		} );
 	}
 	
