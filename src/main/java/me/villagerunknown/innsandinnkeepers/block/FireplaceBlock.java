@@ -1,6 +1,7 @@
 package me.villagerunknown.innsandinnkeepers.block;
 
 import com.mojang.serialization.MapCodec;
+import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
 import me.villagerunknown.platform.util.MathUtil;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class FireplaceBlock extends AbstractFurnaceBlock {
 	
-	public static final int MAX_BLOCKS_SMOKE_PASSES_THROUGH = 16;
+	public static final int MAX_BLOCKS_SMOKE_PASSES_THROUGH = Innsandinnkeepers.CONFIG.maxFireplaceSmokeThroughBlocks;
 	
 	public static final MapCodec<FireplaceBlock> CODEC = createCodec(FireplaceBlock::new);
 	

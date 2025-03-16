@@ -11,6 +11,16 @@ public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.Conf
 	 */
 	
 	@ConfigEntry.Category("General")
-	public int radius = 8;
+	public int maxFireplaceSmokeThroughBlocks = 16;
+	
+	/**
+	 * Innkeepers
+	 */
+	
+	@ConfigEntry.Category("Innkeepers")
+	public boolean enableGoldenAppleTrade = false;
+	
+	@ConfigEntry.Category("Innkeepers")
+	public boolean enableEnchantedGoldenAppleTrade = false;
 	
 }
