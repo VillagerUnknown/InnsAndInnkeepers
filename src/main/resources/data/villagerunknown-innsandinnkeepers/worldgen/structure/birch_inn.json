@@ -1,18 +1,13 @@
 {
   "type": "minecraft:jigsaw",
   "biomes": [
-    "minecraft:meadow",
-    "minecraft:forest",
-    "minecraft:flower_forest",
-    "minecraft:plains",
-    "minecraft:sunflower_plains",
-    "minecraft:snowy_plains",
-    "minecraft:wooded_badlands"
+    "minecraft:birch_forest",
+    "minecraft:old_growth_birch_forest"
   ],
   "step": "surface_structures",
   "spawn_overrides": {},
   "terrain_adaptation": "beard_thin",
-  "start_pool": "villagerunknown-innsandinnkeepers:plains_inn",
+  "start_pool": "villagerunknown-innsandinnkeepers:birch_inn",
   "size": 4,
   "start_height": {
     "absolute": 0

@@ -3,6 +3,26 @@
     {
       "structure": "villagerunknown-innsandinnkeepers:plains_inn",
       "weight": 1
+    },
+    {
+      "structure": "villagerunknown-innsandinnkeepers:taiga_inn",
+      "weight": 1
+    },
+    {
+      "structure": "villagerunknown-innsandinnkeepers:birch_inn",
+      "weight": 1
+    },
+    {
+      "structure": "villagerunknown-innsandinnkeepers:dark_oak_inn",
+      "weight": 1
+    },
+    {
+      "structure": "villagerunknown-innsandinnkeepers:jungle_inn",
+      "weight": 1
+    },
+    {
+      "structure": "villagerunknown-innsandinnkeepers:savanna_inn",
+      "weight": 1
     }
   ],
   "placement": {
