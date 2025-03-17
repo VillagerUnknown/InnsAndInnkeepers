@@ -1,6 +1,6 @@
 # VillagerUnknown's Inns & Innkeepers
 
-Adds Inns and Innkeeper Villagers to world generation. Includes Hearthstone item to allow players to teleport to a bound Fireplace.
+Inspired by MMORPG's, this mod adds Inns and Innkeeper Villagers to world generation. Includes Hearthstone item to allow players to teleport to a bound Fireplace.
 
 **Inns**
 
