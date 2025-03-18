@@ -1,8 +1,11 @@
 package me.villagerunknown.innsandinnkeepers.item;
 
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
+import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
 import me.villagerunknown.platform.util.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LodestoneTrackerComponent;
 import net.minecraft.entity.LivingEntity;
@@ -107,30 +110,59 @@ public class HearthstoneItem extends Item {
 	public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
 		ItemStack itemStack = super.finishUsing(stack, world, user);
 		
+		boolean destroyed = false;
+		
 		if( !world.isClient() ) {
 			LodestoneTrackerComponent lodestoneTrackerComponent = (LodestoneTrackerComponent)stack.get(DataComponentTypes.LODESTONE_TRACKER);
-			if (lodestoneTrackerComponent != null) {
-				if( lodestoneTrackerComponent.target().isPresent() ) {
-					MinecraftServer server = world.getServer();
-					RegistryKey<World> dimension = lodestoneTrackerComponent.target().get().dimension();
+			if (lodestoneTrackerComponent != null && lodestoneTrackerComponent.target().isPresent()) {
+				MinecraftServer server = world.getServer();
+				RegistryKey<World> dimension = lodestoneTrackerComponent.target().get().dimension();
+				BlockPos trackedPos = lodestoneTrackerComponent.target().get().pos();
+				
+				
+				
+				if( null != server && null != dimension && null != trackedPos ) {
+					ServerWorld dimWorld = server.getWorld( dimension );
 					
-					if( null != server ) {
-						ServerWorld dimWorld = server.getWorld( dimension );
+					if( null != dimWorld ) {
+						BlockEntity trackedBlockEntity = dimWorld.getBlockEntity(trackedPos);
 						
-						BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, lodestoneTrackerComponent.target().get().pos(), 1);
-						
-						world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-						user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.VALUES, user.getYaw(), user.getPitch() );
-						world.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-						EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 20, 0.05, -0.05, 0.05, 0.05);
-						
-						if( user instanceof PlayerEntity player ) {
-							player.getItemCooldownManager().set(this, COOLDOWN_TIME);
-							player.incrementStat(Stats.USED.getOrCreateStat(this));
-						}
-					} // if
-				} // if
-			} // if
+						if( null != trackedBlockEntity ) {
+							BlockEntityType<?> trackedBlockType = trackedBlockEntity.getType();
+							
+							if( null != trackedBlockType && trackedBlockType == fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY ) {
+								BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, lodestoneTrackerComponent.target().get().pos(), 1);
+								
+								world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+								user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.VALUES, user.getYaw(), user.getPitch() );
+								world.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+								EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 20, 0.05, -0.05, 0.05, 0.05);
+								
+								if( user instanceof PlayerEntity player ) {
+									player.getItemCooldownManager().set(this, COOLDOWN_TIME);
+									player.incrementStat(Stats.USED.getOrCreateStat(this));
+								} // if
+							} else {
+								destroyed = true;
+							} // if, else
+						} else {
+							destroyed = true;
+						} // if, else
+					} else {
+						destroyed = true;
+					} // if, else
+				} else {
+					destroyed = true;
+				} // if, else
+			} else {
+				MessageUtil.sendChatMessage((PlayerEntity) user, "This Hearthstone is not bound to a Fireplace.");
+			} // if, else
+		} // if
+		
+		if( destroyed ) {
+			MessageUtil.sendChatMessage((PlayerEntity) user, "The bound Fireplace has been destroyed.");
+			
+			itemStack.remove(DataComponentTypes.LODESTONE_TRACKER);
 		} // if
 		
 		return itemStack;
