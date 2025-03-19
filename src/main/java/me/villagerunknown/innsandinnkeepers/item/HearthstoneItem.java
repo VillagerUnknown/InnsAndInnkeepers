@@ -26,6 +26,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -85,7 +86,7 @@ public class HearthstoneItem extends Item {
 				itemStack.set(DataComponentTypes.LODESTONE_TRACKER, lodestoneTrackerComponent);
 				
 				if( null != context.getPlayer() ) {
-					MessageUtil.sendChatMessage(context.getPlayer(), "Hearthstone bound.");
+					MessageUtil.sendChatMessage(context.getPlayer(), Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.bound" ).getString());
 				} // if
 				
 				return ActionResult.success(world.isClient);
@@ -155,12 +156,12 @@ public class HearthstoneItem extends Item {
 					destroyed = true;
 				} // if, else
 			} else {
-				MessageUtil.sendChatMessage((PlayerEntity) user, "This Hearthstone is not bound to a Fireplace.");
+				MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.notbound" ).getString());
 			} // if, else
 		} // if
 		
 		if( destroyed ) {
-			MessageUtil.sendChatMessage((PlayerEntity) user, "The bound Fireplace has been destroyed.");
+			MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.destroyed" ).getString());
 			
 			itemStack.remove(DataComponentTypes.LODESTONE_TRACKER);
 		} // if
@@ -188,10 +189,12 @@ public class HearthstoneItem extends Item {
 				BlockPos pos = lodestoneTrackerComponent.target().get().pos();
 				String dimensionName = StringUtil.capitalize( lodestoneTrackerComponent.target().get().dimension().getValue().getPath().toLowerCase() );
 				
-				tooltip.addLast( Text.of( "(Bound to: " + dimensionName + " @ "  + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );
+				String boundTo = Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.boundto").getString();
+				tooltip.addLast( Text.of( "(" + boundTo + ": " + dimensionName + " @ "  + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );
 			} // if
 		} else {
-			tooltip.addLast( Text.of( "(Not bound)" ) );
+			String notBound = Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.notbound").getString();
+			tooltip.addLast( Text.of( "(" + notBound + ")" ) );
 		} // if, else
 		
 		super.appendTooltip(stack, context, tooltip, type);
