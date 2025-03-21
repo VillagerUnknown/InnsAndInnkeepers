@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.1]
 
+### Added
+
+- Added option to enable/disable the Hearthstone trade from Innkeeper Villagers.
+
+### Changed
+
+- Changed Innkeeper Villager trades to accommodate the new Hearthstone option. 
+Innkeepers will offer a Bottle of Water if the Hearthstone is disabled as a Novice trade. 
+They will always offer Baked Potatoes as a Novice trade.
+
 ### Fixed
 
 - Hearthstones no longer teleport players if the bound Fireplace has been destroyed.
