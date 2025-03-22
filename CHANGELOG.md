@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Changed Innkeeper Villager trades to accommodate the new Hearthstone option. 
 Innkeepers will offer a Bottle of Water if the Hearthstone is disabled as a Novice trade. 
 They will always offer Baked Potatoes as a Novice trade.
+- Changed structures to improve Villager behavior.
 
 ### Fixed
 
