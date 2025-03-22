@@ -117,11 +117,18 @@ public class innkeeperVillagerFeature {
 						NOVICE_BUY_XP,
 						LOW_PRICE_MULTIPLIER
 				));
+				f.add( (entity, random) -> new TradeOffer(
+						new TradedItem( Items.EMERALD, 3 ),
+						new ItemStack( Items.COOKIE, 6 ),
+						DEFAULT_MAX_USES,
+						NOVICE_BUY_XP,
+						LOW_PRICE_MULTIPLIER
+				));
 			} // if, else
 			
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 3 ),
-					new ItemStack( Items.BAKED_POTATO, 6 ),
+					new ItemStack( Items.APPLE, 6 ),
 					DEFAULT_MAX_USES,
 					NOVICE_BUY_XP,
 					LOW_PRICE_MULTIPLIER
@@ -130,6 +137,13 @@ public class innkeeperVillagerFeature {
 		
 		// # Level 2
 		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 2, f -> {
+			f.add( (entity, random) -> new TradeOffer(
+					new TradedItem( Items.EMERALD, 6 ),
+					new ItemStack( Items.BAKED_POTATO, 6 ),
+					DEFAULT_MAX_USES,
+					NOVICE_BUY_XP,
+					LOW_PRICE_MULTIPLIER
+			));
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 6 ),
 					new ItemStack( Items.BREAD, 6 ),
