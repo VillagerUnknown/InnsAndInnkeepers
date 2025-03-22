@@ -6,6 +6,7 @@
   "text.autoconfig.villagerunknown-innsandinnkeepers.category.Innkeepers": "Innkeepers",
 
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.maxFireplaceSmokeThroughBlocks": "Max Fireplace Smoke Through Blocks",
+  "text.autoconfig.villagerunknown-innsandinnkeepers.option.enableHearthstoneTrade": "Enable Hearthstone Trade",
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.enableGoldenAppleTrade": "Enable Golden Apple Trade",
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.enableEnchantedGoldenAppleTrade": "Enable Enchanted Golden Apple Trade",
 
@@ -27,6 +28,11 @@
   "block.villagerunknown-innsandinnkeepers.polished_blackstone_brick_fireplace": "Polished Blackstone Brick Fireplace",
 
   "item.villagerunknown-innsandinnkeepers.hearthstone": "Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.hearthstone.bound": "Hearthstone bound.",
+  "item.villagerunknown-innsandinnkeepers.hearthstone.notbound": "This Hearthstone is not bound to a Fireplace.",
+  "item.villagerunknown-innsandinnkeepers.hearthstone.destroyed": "The bound Fireplace has been destroyed.",
+  "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.notbound": "Not bound",
+  "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.boundto": "Bound to",
   "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.bind": "Crouch and Interact with a Fireplace to bind this Hearthstone.",
   "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.teleport": "Interact with this Hearthstone to return to the bound Fireplace."
 }

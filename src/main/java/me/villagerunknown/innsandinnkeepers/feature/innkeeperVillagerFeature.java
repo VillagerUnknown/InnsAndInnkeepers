@@ -99,19 +99,29 @@ public class innkeeperVillagerFeature {
 	private static void registerVillagerTrades() {
 		// # Level 1
 		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 1, f -> {
-			f.add( (entity, random) -> new TradeOffer(
-					new TradedItem( Items.EMERALD, 6 ),
-					new ItemStack( hearthstoneItemFeature.HEARTHSTONE_ITEM, 1 ),
-					DEFAULT_MAX_USES,
-					NOVICE_BUY_XP,
-					LOW_PRICE_MULTIPLIER
-			));
+			if( Innsandinnkeepers.CONFIG.enableHearthstoneTrade ) {
+				f.add((entity, random) -> new TradeOffer(
+						new TradedItem(Items.EMERALD, 6),
+						new ItemStack(hearthstoneItemFeature.HEARTHSTONE_ITEM, 1),
+						DEFAULT_MAX_USES,
+						NOVICE_BUY_XP,
+						LOW_PRICE_MULTIPLIER
+				));
+			} else {
+				ItemStack water = new ItemStack( Items.POTION, 1 );
+				water.set(DataComponentTypes.ITEM_NAME, Text.translatable( "item.minecraft.potion.effect.water" ) );
+				f.add( (entity, random) -> new TradeOffer(
+						new TradedItem( Items.EMERALD, 3 ),
+						water,
+						DEFAULT_MAX_USES,
+						NOVICE_BUY_XP,
+						LOW_PRICE_MULTIPLIER
+				));
+			} // if, else
 			
-			ItemStack water = new ItemStack( Items.POTION );
-			water.set(DataComponentTypes.ITEM_NAME, Text.translatable( "item.minecraft.potion.effect.water" ) );
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 3 ),
-					water,
+					new ItemStack( Items.BAKED_POTATO, 6 ),
 					DEFAULT_MAX_USES,
 					NOVICE_BUY_XP,
 					LOW_PRICE_MULTIPLIER
@@ -122,7 +132,7 @@ public class innkeeperVillagerFeature {
 		TradeOfferHelper.registerVillagerOffers( INNKEEPER_PROFESSION, 2, f -> {
 			f.add( (entity, random) -> new TradeOffer(
 					new TradedItem( Items.EMERALD, 6 ),
-					new ItemStack( Items.BREAD, 12 ),
+					new ItemStack( Items.BREAD, 6 ),
 					DEFAULT_MAX_USES,
 					NOVICE_BUY_XP,
 					LOW_PRICE_MULTIPLIER

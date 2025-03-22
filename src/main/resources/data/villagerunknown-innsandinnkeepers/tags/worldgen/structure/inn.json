@@ -1,5 +1,10 @@
 {
   "values": [
-    "villagerunknown-innsandinnkeepers:plains_inn"
+    "villagerunknown-innsandinnkeepers:birch_inn",
+    "villagerunknown-innsandinnkeepers:dark_oak_inn",
+    "villagerunknown-innsandinnkeepers:jungle_inn",
+    "villagerunknown-innsandinnkeepers:plains_inn",
+    "villagerunknown-innsandinnkeepers:savanna_inn",
+    "villagerunknown-innsandinnkeepers:taiga_inn"
   ]
 }
