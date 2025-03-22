@@ -18,7 +18,7 @@ public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.Conf
 	 */
 	
 	@ConfigEntry.Category("Innkeepers")
-	public boolean enableHearthstoneTrade = false;
+	public boolean enableHearthstoneTrade = true;
 	
 	@ConfigEntry.Category("Innkeepers")
 	public boolean enableGoldenAppleTrade = false;

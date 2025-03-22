@@ -27,7 +27,7 @@ The Hearthstone can be enabled in the config.
 **Options**
 
 * maxFireplaceSmokeThroughBlocks - Maximum number of blocks smoke from Fireplaces can go through blocks. (Default: 16)
-* enableHearthstoneTrade - Enables Hearthstone trade chance for Novice Innkeepers. (Default: false)
+* enableHearthstoneTrade - Enables Hearthstone trade chance for Novice Innkeepers. (Default: true)
 * enableGoldenAppleTrade - Enables Golden Apple trade chance for Master Innkeepers. (Default: false)
 * enableEnchantedGoldenAppleTrade - Enables Enchanted Golden Apple trade chance for Master Innkeepers. (Default: false)
 
