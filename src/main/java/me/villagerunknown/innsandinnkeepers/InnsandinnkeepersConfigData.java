@@ -7,10 +7,10 @@ import me.shedaniel.autoconfig.annotation.ConfigEntry;
 public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.ConfigData {
 	
 	/**
-	 * General
+	 * Fireplaces
 	 */
 	
-	@ConfigEntry.Category("General")
+	@ConfigEntry.Category("Fireplaces")
 	public int maxFireplaceSmokeThroughBlocks = 16;
 	
 	/**
@@ -25,5 +25,15 @@ public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.Conf
 	
 	@ConfigEntry.Category("Innkeepers")
 	public boolean enableEnchantedGoldenAppleTrade = false;
+	
+	/**
+	 * Hearthstones
+	 */
+	
+	@ConfigEntry.Category("Hearthstones")
+	public int hearthstoneUseTime = 80;
+	
+	@ConfigEntry.Category("Hearthstones")
+	public int hearthstoneCooldownTime = 1000;
 	
 }
