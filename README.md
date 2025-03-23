@@ -10,11 +10,13 @@ Inns with Fireplaces, and Innkeepers, can be found throughout the world.
 **Innkeeper Villagers**
 
 Innkeeper Villagers use Fireplaces as workstations. 
-In addition to offering food and potions, the Innkeeper Villager sells Hearthstones that allows players to teleport to a bound Fireplace. 
+In addition to offering food and potions, the Innkeeper Villager optionally sells Hearthstones that allows players to teleport to a bound Fireplace. 
 
 **Custom Blocks**
 
-* **Fireplace** - The Fireplace, the Innkeeper's workstation, is always lit and allows players to set their Hearthstone's teleport location. 
+* **Fireplace** - The Fireplace, the Innkeeper's workstation, is lit when placed, 
+can be extinguished with a shovel, can be reignited with flint and steel or a fire charge, 
+and allows players to set their Hearthstone's teleport location. 
 The smoke from Fireplaces go through blocks above allowing players to build functional chimneys!
 
 **Custom Items**
