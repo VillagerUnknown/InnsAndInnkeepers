@@ -97,8 +97,16 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 			
 			if( !state.get(LIT) && IGNITERS.contains( itemInHand ) ) {
 				state = ignite( world, state, pos );
+				
+				if( Items.FIRE_CHARGE == itemInHand ) {
+					stackInHand.decrementUnlessCreative(1, player);
+				} else if( Items.FLINT_AND_STEEL == itemInHand  ) {
+					stackInHand.damage(1, player, LivingEntity.getSlotForHand(player.getActiveHand()));
+				} // if, else
 			} else if( state.get(LIT) && EXTINGUISHERS.contains( itemInHand ) ) {
 				state = extinguish( world, state, pos );
+				
+				stackInHand.damage(1, player, LivingEntity.getSlotForHand(player.getActiveHand()));
 			} // if, else if
 		} // if
 		
