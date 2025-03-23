@@ -147,7 +147,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 
 		if( blockEntity.isBurning() ) {
 			bl2 = true;
-			state = (BlockState)state.with(AbstractFurnaceBlock.LIT, true);
+//			state = (BlockState)state.with(AbstractFurnaceBlock.LIT, true);
 			world.setBlockState(pos, state, 3);
 		}
 		

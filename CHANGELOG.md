@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2]
+
+### Changed
+
+- Like Campfires, Fireplaces can now be extinguished with a shovel and reignited with a flint and steel or a fire charge.
+
 ## [1.0.1]
 
 ### Added

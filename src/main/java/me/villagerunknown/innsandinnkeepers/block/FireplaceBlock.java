@@ -13,19 +13,43 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FireplaceBlock extends AbstractFurnaceBlock {
+	
+	private static final List<Item> IGNITERS = new ArrayList<>(List.of(
+			Items.FLINT_AND_STEEL,
+			Items.FIRE_CHARGE
+	));
+	
+	private static final List<Item> EXTINGUISHERS = new ArrayList<>(List.of(
+			Items.WOODEN_SHOVEL,
+			Items.STONE_SHOVEL,
+			Items.IRON_SHOVEL,
+			Items.GOLDEN_SHOVEL,
+			Items.DIAMOND_SHOVEL,
+			Items.NETHERITE_SHOVEL
+	));
 	
 	public static final int MAX_BLOCKS_SMOKE_PASSES_THROUGH = Innsandinnkeepers.CONFIG.maxFireplaceSmokeThroughBlocks;
 	
@@ -39,10 +63,12 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 		super(
 				Settings.copy(Blocks.SMOKER)
 		);
+		this.setDefaultState((BlockState)(this.stateManager.getDefaultState()).with(LIT, true));
 	}
 	
 	public FireplaceBlock(AbstractBlock.Settings settings) {
 		super(settings);
+		this.setDefaultState((BlockState)(this.stateManager.getDefaultState()).with(LIT, true));
 	}
 	
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -62,6 +88,23 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 //		}
 	}
 	
+	@Override
+	protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+		ItemStack stackInHand = player.getMainHandStack();
+		
+		if( null != stackInHand && !stackInHand.isEmpty() ) {
+			Item itemInHand = stackInHand.getItem();
+			
+			if( !state.get(LIT) && IGNITERS.contains( itemInHand ) ) {
+				state = ignite( world, state, pos );
+			} else if( state.get(LIT) && EXTINGUISHERS.contains( itemInHand ) ) {
+				state = extinguish( world, state, pos );
+			} // if, else if
+		} // if
+		
+		return super.onUse(state, world, pos, player, hit);
+	}
+	
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
 		if ((Boolean)state.get(LIT)) {
 			double d = (double)pos.getX() + 0.5;
@@ -71,6 +114,27 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 				world.playSound(d, e, f, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 			} // if
 		} // if
+	}
+	
+//	@Override
+//	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+//		world.setBlockState( pos, state.with( LIT, true ) );
+//
+//		super.onPlaced(world, pos, state, placer, itemStack);
+//	}
+	
+	public BlockState ignite( World world, BlockState state, BlockPos pos ) {
+		world.playSoundAtBlockCenter( pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.5F, 1, true );
+		state = state.with(LIT,true);
+		world.setBlockState( pos, state );
+		return state;
+	}
+	
+	public BlockState extinguish( World world, BlockState state, BlockPos pos ) {
+		world.playSoundAtBlockCenter( pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1, 1, true );
+		state = state.with(LIT,false);
+		world.setBlockState( pos, state );
+		return state;
 	}
 	
 }
