@@ -41,8 +41,8 @@ import java.util.Optional;
 
 public class HearthstoneItem extends Item {
 	
-	private static final int MAX_USE_TIME = 80;
-	private static final int COOLDOWN_TIME = 1000;
+	private static final int MAX_USE_TIME = Innsandinnkeepers.CONFIG.hearthstoneUseTime;
+	private static final int COOLDOWN_TIME = Innsandinnkeepers.CONFIG.hearthstoneCooldownTime;
 	
 	public HearthstoneItem(Settings settings) {
 		super(settings);
