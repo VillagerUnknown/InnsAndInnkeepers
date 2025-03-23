@@ -32,6 +32,8 @@ The Hearthstone can be enabled in the config.
 * enableHearthstoneTrade - Enables Hearthstone trade chance for Novice Innkeepers. (Default: true)
 * enableGoldenAppleTrade - Enables Golden Apple trade chance for Master Innkeepers. (Default: false)
 * enableEnchantedGoldenAppleTrade - Enables Enchanted Golden Apple trade chance for Master Innkeepers. (Default: false)
+* hearthstoneUseTime - Time it takes to teleport from first using the Hearthstone. (Default: 80)
+* hearthstoneCooldownTime - Time it takes to use a Hearthstone again after using a Hearthstone. (Default: 1000)
 
 ## Support
 

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.2]
 
+### Added
+
+- Added Hearthstone use time and cooldown config options.
+
 ### Changed
 
 - Like Campfires, Fireplaces can now be extinguished with a shovel and reignited with a flint and steel or a fire charge.
