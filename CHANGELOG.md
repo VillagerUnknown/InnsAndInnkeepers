@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added Hearthstone use time and cooldown config options.
+- Added Hearthstone use time and cooldown time config options.
 
 ### Changed
 
