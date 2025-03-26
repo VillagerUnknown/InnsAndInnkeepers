@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.3]
+
+### Changed
+
+- Moved head functionality to platform
+
 ## [1.0.2]
 
 ### Added
