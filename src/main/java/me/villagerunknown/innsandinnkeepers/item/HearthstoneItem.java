@@ -120,8 +120,6 @@ public class HearthstoneItem extends Item {
 				RegistryKey<World> dimension = lodestoneTrackerComponent.target().get().dimension();
 				BlockPos trackedPos = lodestoneTrackerComponent.target().get().pos();
 				
-				
-				
 				if( null != server && null != dimension && null != trackedPos ) {
 					ServerWorld dimWorld = server.getWorld( dimension );
 					
