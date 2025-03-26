@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Moved head functionality to platform
+- Updates from Platform library
 
 ## [1.0.2]
 
