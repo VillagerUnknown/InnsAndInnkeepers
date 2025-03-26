@@ -6,7 +6,9 @@
   "description": "Adds Inns and Innkeepers to world generation. Includes Hearthstone item to allow players to return to a bound Fireplace.",
   "authors": ["VillagerUnknown"],
   "contact": {
-    "homepage":"https://github.com/VillagerUnknown/InnsAndInnkeepers"
+    "homepage":"https://modrinth.com/mod/villagerunknown-innsandinnkeepers",
+    "sources":"https://github.com/VillagerUnknown/InnsAndInnkeepers",
+    "issues":"https://github.com/VillagerUnknown/InnsAndInnkeepers/issues"
   },
   "license": "CC-BY-4.0",
   "icon": "assets/innsandinnkeepers/villagerunknown-inns-and-innkeepers.png",
@@ -32,14 +34,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}",
-    "villagerunknown-platform": ">=1.1.1"
-  },
-  "custom": {
-    "modmenu": {
-      "links": {
-        "modmenu.discord": "https://github.com/VillagerUnknown/InnsAndInnkeepers"
-      }
-    }
+    "minecraft": ">=${minecraft_version}",
+    "villagerunknown-platform": ">=1.2.0"
   }
 }
