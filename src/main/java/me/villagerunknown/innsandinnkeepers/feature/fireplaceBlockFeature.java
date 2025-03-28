@@ -4,6 +4,7 @@ import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.screen.FireplaceScreenHandler;
 import me.villagerunknown.platform.util.RegistryUtil;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
@@ -11,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -56,15 +59,17 @@ public class fireplaceBlockFeature {
 	}
 	
 	private static void registerBlock( String blockType ) {
-		Block block = new FireplaceBlock();
+		Block block = new FireplaceBlock( blockType + "_" + FIREPLACE_STRING );
 		
-		RegistryUtil.addItemToGroup( ItemGroups.FUNCTIONAL, RegistryUtil.registerItem( blockType + "_" + FIREPLACE_STRING, new BlockItem( block, new Item.Settings() ), MOD_ID ) );
+		Identifier id = Identifier.of(MOD_ID,blockType + "_" + FIREPLACE_STRING);
+		
+		RegistryUtil.addItemToGroup( ItemGroups.FUNCTIONAL, RegistryUtil.registerItem( blockType + "_" + FIREPLACE_STRING, new BlockItem( block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)) ), MOD_ID ) );
 		
 		BLOCKS.put( blockType + "_" + FIREPLACE_STRING, RegistryUtil.registerBlock( blockType + "_" + FIREPLACE_STRING, block, MOD_ID ) );
 	}
 	
 	private static void registerBlockEntityType() {
-		FIREPLACE_BLOCK_ENTITY = BlockEntityType.Builder.create(
+		FIREPLACE_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(
 				FireplaceBlockEntity::new,
 				BLOCKS.get( "cobblestone_fireplace" ),
 				BLOCKS.get( "cobbled_deepslate_fireplace" ),
@@ -82,7 +87,7 @@ public class fireplaceBlockFeature {
 	}
 	
 	private static void registerScreenHandler() {
-		Registry.register( Registries.SCREEN_HANDLER, Identifier.of( MOD_ID, FIREPLACE_STRING ), FIREPLACE_SCREEN_HANDLER );
+//		Registry.register( Registries.SCREEN_HANDLER, Identifier.of( MOD_ID, FIREPLACE_STRING ), FIREPLACE_SCREEN_HANDLER );
 	}
 	
 }

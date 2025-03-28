@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:tuff_bricks"
-    },
-    "C": {
-      "item": "minecraft:campfire"
-    }
+    "#": "minecraft:tuff_bricks",
+    "C": "minecraft:campfire"
   },
   "result": {
     "id": "villagerunknown-innsandinnkeepers:tuff_brick_fireplace",

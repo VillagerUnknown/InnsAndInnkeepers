@@ -3,6 +3,7 @@ package me.villagerunknown.innsandinnkeepers.item;
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
+import me.villagerunknown.innsandinnkeepers.feature.hearthstoneItemFeature;
 import me.villagerunknown.platform.util.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -14,6 +15,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.particle.ParticleEffect;
@@ -30,14 +32,16 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Optional;
+
+import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
 
 public class HearthstoneItem extends Item {
 	
@@ -89,7 +93,7 @@ public class HearthstoneItem extends Item {
 					MessageUtil.sendChatMessage(context.getPlayer(), Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.bound" ).getString());
 				} // if
 				
-				return ActionResult.success(world.isClient);
+				return ActionResult.SUCCESS;
 			} // if
 		} // if
 		
@@ -97,14 +101,14 @@ public class HearthstoneItem extends Item {
 	}
 	
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+	public ActionResult use(World world, PlayerEntity user, Hand hand) {
 		if( !world.isClient() ) {
 			world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
 			
 			return ItemUsage.consumeHeldItem(world, user, hand);
 		} // if
 		
-		return TypedActionResult.pass(user.getStackInHand( hand ));
+		return ActionResult.PASS;
 	}
 	
 	@Override
@@ -130,15 +134,15 @@ public class HearthstoneItem extends Item {
 							BlockEntityType<?> trackedBlockType = trackedBlockEntity.getType();
 							
 							if( null != trackedBlockType && trackedBlockType == fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY ) {
-								BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, lodestoneTrackerComponent.target().get().pos(), 1);
+								BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, lodestoneTrackerComponent.target().get().pos(), 2);
 								
 								world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-								user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.VALUES, user.getYaw(), user.getPitch() );
+								user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.DELTA, user.getYaw(), user.getPitch(), false );
 								world.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 								EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 20, 0.05, -0.05, 0.05, 0.05);
 								
 								if( user instanceof PlayerEntity player ) {
-									player.getItemCooldownManager().set(this, COOLDOWN_TIME);
+									player.getItemCooldownManager().set(Identifier.of(MOD_ID,hearthstoneItemFeature.HEARTHSTONE_STRING), COOLDOWN_TIME);
 									player.incrementStat(Stats.USED.getOrCreateStat(this));
 								} // if
 							} else {
