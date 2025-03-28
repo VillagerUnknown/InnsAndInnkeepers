@@ -57,7 +57,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	protected DefaultedList<ItemStack> inventory;
 	protected final PropertyDelegate propertyDelegate;
 	private final Object2IntOpenHashMap<Identifier> recipesUsed;
-	private final RecipeManager.MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter;
+	private final ServerRecipeManager.MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter;
 	
 	public FireplaceBlockEntity(BlockPos pos, BlockState state) {
 		super(fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY, pos, state, RecipeType.SMOKING);
@@ -99,7 +99,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 			}
 		};
 		this.recipesUsed = new Object2IntOpenHashMap<>();
-		this.matchGetter = RecipeManager.createCachedMatchGetter(RecipeType.SMOKING);
+		this.matchGetter = ServerRecipeManager.createCachedMatchGetter(RecipeType.SMOKING);
 	}
 	
 	protected Text getContainerName() {
@@ -115,45 +115,45 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	}
 	
 	public static void tick(World world, BlockPos pos, BlockState state, FireplaceBlockEntity blockEntity) {
-		boolean bl = blockEntity.isBurning();
-		boolean bl2 = false;
-
-		ItemStack itemStack = (ItemStack)blockEntity.inventory.get(1);
-		ItemStack itemStack2 = (ItemStack)blockEntity.inventory.get(0);
-		boolean bl3 = !itemStack2.isEmpty();
-		boolean bl4 = !itemStack.isEmpty();
-		if (blockEntity.isBurning()) {
-			RecipeEntry<?> recipeEntry = blockEntity.matchGetter.getFirstMatch(new SingleStackRecipeInput(itemStack2), world).orElse(null);
-//			Innsandinnkeepers.LOGGER.info( "Recipe: " + recipeEntry );
-			int i = blockEntity.getMaxCountPerStack();
-
-			if (blockEntity.isCooking() && canAcceptRecipeOutput(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
-				++blockEntity.cookTime;
-				if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
-					blockEntity.cookTime = 0;
-					blockEntity.cookTimeTotal = getCookTime(world, blockEntity);
-					if (craftRecipe(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
-						blockEntity.setLastRecipe(recipeEntry);
-					}
-
-					bl2 = true;
-				}
-			} else {
-				blockEntity.cookTime = 0;
-			}
-		} else if (!blockEntity.isCooking() && blockEntity.cookTime > 0) {
-			blockEntity.cookTime = MathHelper.clamp(blockEntity.cookTime - 2, 0, blockEntity.cookTimeTotal);
-		}
-
-		if( blockEntity.isBurning() ) {
-			bl2 = true;
-//			state = (BlockState)state.with(AbstractFurnaceBlock.LIT, true);
-			world.setBlockState(pos, state, 3);
-		}
-		
-		if( bl2 ) {
-			markDirty(world, pos, state);
-		}
+//		boolean bl = blockEntity.isBurning();
+//		boolean bl2 = false;
+//
+//		ItemStack itemStack = (ItemStack)blockEntity.inventory.get(1);
+//		ItemStack itemStack2 = (ItemStack)blockEntity.inventory.get(0);
+//		boolean bl3 = !itemStack2.isEmpty();
+//		boolean bl4 = !itemStack.isEmpty();
+//		if (blockEntity.isBurning()) {
+//			RecipeEntry<?> recipeEntry = blockEntity.matchGetter.getFirstMatch(new SingleStackRecipeInput(itemStack2), world.getServer().getWorld( world.getRegistryKey() )).orElse(null);
+////			Innsandinnkeepers.LOGGER.info( "Recipe: " + recipeEntry );
+//			int i = blockEntity.getMaxCountPerStack();
+//
+//			if (blockEntity.isCooking() && canAcceptRecipeOutput(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
+//				++blockEntity.cookTime;
+//				if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
+//					blockEntity.cookTime = 0;
+//					blockEntity.cookTimeTotal = getCookTime(world, blockEntity);
+//					if (craftRecipe(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
+//						blockEntity.setLastRecipe(recipeEntry);
+//					}
+//
+//					bl2 = true;
+//				}
+//			} else {
+//				blockEntity.cookTime = 0;
+//			}
+//		} else if (!blockEntity.isCooking() && blockEntity.cookTime > 0) {
+//			blockEntity.cookTime = MathHelper.clamp(blockEntity.cookTime - 2, 0, blockEntity.cookTimeTotal);
+//		}
+//
+//		if( blockEntity.isBurning() ) {
+//			bl2 = true;
+////			state = (BlockState)state.with(AbstractFurnaceBlock.LIT, true);
+//			world.setBlockState(pos, state, 3);
+//		}
+//
+//		if( bl2 ) {
+//			markDirty(world, pos, state);
+//		}
 		
 		if( (Boolean)state.get(FireplaceBlock.LIT) && MathUtil.hasChance( 0.33F ) ) {
 			double d = (double)pos.getX() + 0.5;
@@ -200,51 +200,51 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	
 	private static boolean canAcceptRecipeOutput(DynamicRegistryManager registryManager, @Nullable RecipeEntry<?> recipe, DefaultedList<ItemStack> slots, int count) {
 		if (!((ItemStack)slots.get(0)).isEmpty() && recipe != null) {
-			ItemStack itemStack = recipe.value().getResult(registryManager);
-			if (itemStack.isEmpty()) {
-				return false;
-			} else {
-				ItemStack itemStack2 = (ItemStack)slots.get(1);
-				if (itemStack2.isEmpty()) {
-					return true;
-				} else if (!ItemStack.areItemsAndComponentsEqual(itemStack2, itemStack)) {
-					return false;
-				} else if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
-					return true;
-				} else {
-					return itemStack2.getCount() < itemStack.getMaxCount();
-				}
-			}
-		} else {
-			return false;
+//			ItemStack itemStack = recipe.value().craft() .getResult(registryManager);
+//			if (itemStack.isEmpty()) {
+//				return false;
+//			} else {
+//				ItemStack itemStack2 = (ItemStack)slots.get(1);
+//				if (itemStack2.isEmpty()) {
+//					return true;
+//				} else if (!ItemStack.areItemsAndComponentsEqual(itemStack2, itemStack)) {
+//					return false;
+//				} else if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
+//					return true;
+//				} else {
+//					return itemStack2.getCount() < itemStack.getMaxCount();
+//				}
+//			}
 		}
+		
+		return false;
 	}
 	
 	private static boolean craftRecipe(DynamicRegistryManager registryManager, @Nullable RecipeEntry<?> recipe, DefaultedList<ItemStack> slots, int count) {
-		if (recipe != null && canAcceptRecipeOutput(registryManager, recipe, slots, count)) {
-			ItemStack itemStack = (ItemStack)slots.get(0);
-			ItemStack itemStack2 = recipe.value().getResult(registryManager);
-			ItemStack itemStack3 = (ItemStack)slots.get(1);
-			if (itemStack3.isEmpty()) {
-				slots.set(1, itemStack2.copy());
-			} else if (ItemStack.areItemsAndComponentsEqual(itemStack3, itemStack2)) {
-				itemStack3.increment(1);
-			}
-			
-			if (itemStack.isOf(Blocks.WET_SPONGE.asItem()) && !((ItemStack)slots.get(0)).isEmpty() && ((ItemStack)slots.get(0)).isOf(Items.BUCKET)) {
-				slots.set(0, new ItemStack(Items.WATER_BUCKET));
-			}
-			
-			itemStack.decrement(1);
-			return true;
-		} else {
-			return false;
-		}
+//		if (recipe != null && canAcceptRecipeOutput(registryManager, recipe, slots, count)) {
+//			ItemStack itemStack = (ItemStack)slots.get(0);
+//			ItemStack itemStack2 = recipe.value().getResult(registryManager);
+//			ItemStack itemStack3 = (ItemStack)slots.get(1);
+//			if (itemStack3.isEmpty()) {
+//				slots.set(1, itemStack2.copy());
+//			} else if (ItemStack.areItemsAndComponentsEqual(itemStack3, itemStack2)) {
+//				itemStack3.increment(1);
+//			}
+//
+//			if (itemStack.isOf(Blocks.WET_SPONGE.asItem()) && !((ItemStack)slots.get(0)).isEmpty() && ((ItemStack)slots.get(0)).isOf(Items.BUCKET)) {
+//				slots.set(0, new ItemStack(Items.WATER_BUCKET));
+//			}
+//
+//			itemStack.decrement(1);
+//			return true;
+//		}
+		
+		return false;
 	}
 	
 	private static int getCookTime(World world, FireplaceBlockEntity furnace) {
 		SingleStackRecipeInput singleStackRecipeInput = new SingleStackRecipeInput(furnace.getStack(0));
-		return (Integer)furnace.matchGetter.getFirstMatch(singleStackRecipeInput, world).map((recipe) -> recipe.value().getCookingTime()).orElse(200);
+		return (Integer)furnace.matchGetter.getFirstMatch(singleStackRecipeInput, (ServerWorld) world).map((recipe) -> recipe.value().getCookingTime()).orElse(200);
 	}
 	
 	protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
@@ -301,7 +301,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	
 	public void setLastRecipe(@Nullable RecipeEntry<?> recipe) {
 		if (recipe != null) {
-			Identifier identifier = recipe.id();
+			Identifier identifier = recipe.id().getValue();
 			this.recipesUsed.addTo(identifier, 1);
 		}
 		
@@ -311,13 +311,13 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		List<RecipeEntry<?>> list = Lists.newArrayList();
 		ObjectIterator var4 = this.recipesUsed.object2IntEntrySet().iterator();
 		
-		while(var4.hasNext()) {
-			Object2IntMap.Entry<Identifier> entry = (Object2IntMap.Entry)var4.next();
-			world.getRecipeManager().get((Identifier)entry.getKey()).ifPresent((recipe) -> {
-				list.add(recipe);
-				dropExperience(world, pos, entry.getIntValue(), ((AbstractCookingRecipe)recipe.value()).getExperience());
-			});
-		}
+//		while(var4.hasNext()) {
+//			Object2IntMap.Entry<Identifier> entry = (Object2IntMap.Entry)var4.next();
+//			world.getRecipeManager().get((Identifier)entry.getKey()).ifPresent((recipe) -> {
+//				list.add(recipe);
+//				dropExperience(world, pos, entry.getIntValue(), ((AbstractCookingRecipe)recipe.value()).getExperience());
+//			});
+//		}
 		
 		return list;
 	}
@@ -335,10 +335,10 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	public void provideRecipeInputs(RecipeMatcher finder) {
 		Iterator var2 = this.inventory.iterator();
 		
-		while(var2.hasNext()) {
-			ItemStack itemStack = (ItemStack)var2.next();
-			finder.addInput(itemStack);
-		}
+//		while(var2.hasNext()) {
+//			ItemStack itemStack = (ItemStack)var2.next();
+//			finder.addInput(itemStack);
+//		}
 		
 	}
 	

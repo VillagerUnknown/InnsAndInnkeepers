@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:mossy_cobblestone"
-    },
-    "C": {
-      "item": "minecraft:campfire"
-    }
+    "#": "minecraft:mossy_cobblestone",
+    "C": "minecraft:campfire"
   },
   "result": {
     "id": "villagerunknown-innsandinnkeepers:mossy_cobblestone_fireplace",
