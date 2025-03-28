@@ -8,23 +8,24 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
-import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleStackRecipeInput, AbstractCookingRecipe> {
+public class FireplaceScreenHandler extends AbstractRecipeScreenHandler {
 	
 	private final Inventory inventory;
 	private final PropertyDelegate propertyDelegate;
 	protected final World world;
 	private final RecipeType<? extends AbstractCookingRecipe> recipeType = RecipeType.SMOKING;
-	private final RecipeBookCategory category = RecipeBookCategory.SMOKER;
+	private final RecipeBookType category = RecipeBookType.SMOKER;
 	
 	public FireplaceScreenHandler(int syncId, PlayerInventory playerInventory) {
 		this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(4));
@@ -52,13 +53,6 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 		}
 		
 		this.addProperties(propertyDelegate);
-	}
-	
-	public void populateRecipeFinder(RecipeMatcher finder) {
-		if (this.inventory instanceof RecipeInputProvider) {
-			((RecipeInputProvider)this.inventory).provideRecipeInputs(finder);
-		}
-		
 	}
 	
 	public void clearCraftingSlots() {
@@ -135,7 +129,8 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 	}
 	
 	protected boolean isSmeltable(ItemStack itemStack) {
-		return this.world.getRecipeManager().getFirstMatch(this.recipeType, new SingleStackRecipeInput(itemStack), this.world).isPresent();
+		return true;
+//		return recipePropertySet.canUse(itemStack);
 	}
 	
 	protected boolean isFuel(ItemStack itemStack) {
@@ -156,7 +151,17 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 		return true;
 	}
 	
-	public RecipeBookCategory getCategory() {
+	@Override
+	public PostFillAction fillInputSlots(boolean craftAll, boolean creative, RecipeEntry<?> recipe, ServerWorld world, PlayerInventory inventory) {
+		return null;
+	}
+	
+	@Override
+	public void populateRecipeFinder(RecipeFinder finder) {
+	
+	}
+	
+	public RecipeBookType getCategory() {
 		return this.category;
 	}
 	

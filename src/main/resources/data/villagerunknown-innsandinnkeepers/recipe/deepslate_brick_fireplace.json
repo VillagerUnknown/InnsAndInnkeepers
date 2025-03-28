@@ -6,12 +6,8 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "minecraft:deepslate_bricks"
-    },
-    "C": {
-      "item": "minecraft:campfire"
-    }
+    "#": "minecraft:deepslate_bricks",
+    "C": "minecraft:campfire"
   },
   "result": {
     "id": "villagerunknown-innsandinnkeepers:deepslate_brick_fireplace",

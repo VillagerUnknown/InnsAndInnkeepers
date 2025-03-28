@@ -20,11 +20,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -34,6 +37,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
 
 public class FireplaceBlock extends AbstractFurnaceBlock {
 	
@@ -59,14 +64,15 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 		return CODEC;
 	}
 	
-	public FireplaceBlock() {
+	public FireplaceBlock( String path ) {
 		super(
 				Settings.copy(Blocks.SMOKER)
+						.registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(MOD_ID,path)))
 		);
 		this.setDefaultState((BlockState)(this.stateManager.getDefaultState()).with(LIT, true));
 	}
 	
-	public FireplaceBlock(AbstractBlock.Settings settings) {
+	public FireplaceBlock(Settings settings) {
 		super(settings);
 		this.setDefaultState((BlockState)(this.stateManager.getDefaultState()).with(LIT, true));
 	}
