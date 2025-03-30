@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - Changed supported Minecraft version to 1.21.5.
 
+### Removed
+
+- Temporarily removed instructional tooltips from the Hearthstone. Tooltips will be added back in the future.
+
 ## [1.0.3+1.21.4]
 
 ### Changed
