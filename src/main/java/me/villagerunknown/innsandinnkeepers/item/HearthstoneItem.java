@@ -1,5 +1,6 @@
 package me.villagerunknown.innsandinnkeepers.item;
 
+import me.shedaniel.clothconfig2.api.Tooltip;
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
@@ -7,8 +8,11 @@ import me.villagerunknown.innsandinnkeepers.feature.hearthstoneItemFeature;
 import me.villagerunknown.platform.util.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.component.type.LodestoneTrackerComponent;
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -16,6 +20,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.consume.UseAction;
+import net.minecraft.item.tooltip.BundleTooltipData;
+import net.minecraft.item.tooltip.TooltipData;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.particle.ParticleEffect;
@@ -180,7 +186,11 @@ public class HearthstoneItem extends Item {
 		return MAX_USE_TIME;
 	}
 	
-	@Override
+//	public Optional<TooltipData> getTooltipData(ItemStack stack) {
+//		TooltipDisplayComponent tooltipDisplayComponent = (TooltipDisplayComponent)stack.getOrDefault(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT);
+//		return Optional.ofNullable(  );
+//	}
+	
 	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
 		tooltip.add( Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.bind" ) );
 		tooltip.add( Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.teleport" ) );
@@ -198,8 +208,6 @@ public class HearthstoneItem extends Item {
 			String notBound = Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.notbound").getString();
 			tooltip.addLast( Text.of( "(" + notBound + ")" ) );
 		} // if, else
-		
-		super.appendTooltip(stack, context, tooltip, type);
 	}
 	
 	public SoundEvent getDrinkSound() {
