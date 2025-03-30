@@ -125,7 +125,7 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 			double e = (double)pos.up().getY();
 			double f = (double)pos.getZ() + 0.5;
 			if (random.nextDouble() < 0.1) {
-				world.playSound(d, e, f, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+				world.playSoundClient(d, e, f, SoundEvents.BLOCK_CAMPFIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
 			} // if
 		} // if
 	}
@@ -138,14 +138,14 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 //	}
 	
 	public BlockState ignite( World world, BlockState state, BlockPos pos ) {
-		world.playSoundAtBlockCenter( pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.5F, 1, true );
+		world.playSoundAtBlockCenterClient( pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.5F, 1, true );
 		state = state.with(LIT,true);
 		world.setBlockState( pos, state );
 		return state;
 	}
 	
 	public BlockState extinguish( World world, BlockState state, BlockPos pos ) {
-		world.playSoundAtBlockCenter( pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1, 1, true );
+		world.playSoundAtBlockCenterClient( pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 1, 1, true );
 		state = state.with(LIT,false);
 		world.setBlockState( pos, state );
 		return state;
