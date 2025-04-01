@@ -34,8 +34,11 @@ public class Innsandinnkeepers implements ModInitializer {
 		
 		// # Activate Features
 		featureManager.addFeature( "fireplaceBlock", fireplaceBlockFeature::execute );
-		featureManager.addFeature( "innkeeperVillager", innkeeperVillagerFeature::execute );
 		featureManager.addFeature( "hearthstoneItem", hearthstoneItemFeature::execute );
+		featureManager.addFeature( "innkeeperVillager", innkeeperVillagerFeature::execute );
+		
+		// # Load Features
+		featureManager.loadFeatures();
 	}
 	
 }
