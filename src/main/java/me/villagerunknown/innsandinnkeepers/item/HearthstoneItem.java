@@ -44,6 +44,7 @@ import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -184,30 +185,6 @@ public class HearthstoneItem extends Item {
 	
 	public int getMaxUseTime(ItemStack stack, LivingEntity user) {
 		return MAX_USE_TIME;
-	}
-	
-//	public Optional<TooltipData> getTooltipData(ItemStack stack) {
-//		TooltipDisplayComponent tooltipDisplayComponent = (TooltipDisplayComponent)stack.getOrDefault(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT);
-//		return Optional.ofNullable(  );
-//	}
-	
-	public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-		tooltip.add( Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.bind" ) );
-		tooltip.add( Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.teleport" ) );
-		
-		LodestoneTrackerComponent lodestoneTrackerComponent = (LodestoneTrackerComponent)stack.get(DataComponentTypes.LODESTONE_TRACKER);
-		if (lodestoneTrackerComponent != null) {
-			if( lodestoneTrackerComponent.target().isPresent() ) {
-				BlockPos pos = lodestoneTrackerComponent.target().get().pos();
-				String dimensionName = StringUtil.capitalize( lodestoneTrackerComponent.target().get().dimension().getValue().getPath().toLowerCase() );
-				
-				String boundTo = Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.boundto").getString();
-				tooltip.addLast( Text.of( "(" + boundTo + ": " + dimensionName + " @ "  + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );
-			} // if
-		} else {
-			String notBound = Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.notbound").getString();
-			tooltip.addLast( Text.of( "(" + notBound + ")" ) );
-		} // if, else
 	}
 	
 	public SoundEvent getDrinkSound() {

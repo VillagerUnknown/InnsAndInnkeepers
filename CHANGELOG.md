@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.5+1.21.5]
+
+### Added
+
+- Re-added instructional tooltips to the Hearthstone.
+
 ## [1.0.4+1.21.5]
 
 ### Changed

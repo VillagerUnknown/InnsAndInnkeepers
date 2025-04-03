@@ -1,6 +1,5 @@
 package me.villagerunknown.innsandinnkeepers.feature;
 
-import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.item.HearthstoneItem;
 import me.villagerunknown.platform.util.RegistryUtil;
 import net.minecraft.item.Item;
