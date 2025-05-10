@@ -1,32 +1,33 @@
 # VillagerUnknown's Inns & Innkeepers
 
 Inspired by MMORPG's, this mod adds Inns and Innkeeper Villagers to world generation. 
-Includes optional Hearthstone item to allow players to teleport to a bound Fireplace.
+Includes optional Hearthstone items to allow players to teleport to a bound Fireplace.
 
-**Inns**
+## Inns
 
 Inns with Fireplaces, and Innkeepers, can be found throughout the world.
 
-**Innkeeper Villagers**
+## Innkeeper Villagers
 
 Innkeeper Villagers use Fireplaces as workstations. 
 In addition to offering food and potions, the Innkeeper Villager optionally sells Hearthstones that allows players to teleport to a bound Fireplace. 
 
-**Custom Blocks**
+## Fireplace
 
-* **Fireplace** - The Fireplace, the Innkeeper's workstation, is lit when placed, 
+The Fireplace, the Innkeeper's workstation, is lit when placed, 
 can be extinguished with a shovel, can be reignited with flint and steel or a fire charge, 
 and allows players to set their Hearthstone's teleport location. 
 The smoke from Fireplaces go through blocks above allowing players to build functional chimneys!
 
-**Custom Items**
+## Hearthstone
 
-* **Hearthstone** - The Hearthstone is a non-stackable item that can be bound to a Fireplace. 
+The Hearthstone is a non-stackable item that can be bound to a Fireplace. 
 When a Hearthstone is used by a player it will teleport the player back to the bound Fireplace. 
-Hearthstones have a moderate cooldown, cannot be crafted, and can only be purchased from an Innkeeper. 
+Hearthstones have a configurable cooldown, cannot be crafted, and can only be purchased from an Innkeeper.
+Hearthstones also come in multiple colors but all share the same cooldown.
 The Hearthstone can be enabled in the config.
 
-**Options**
+## Options
 
 * maxFireplaceSmokeThroughBlocks - Maximum number of blocks smoke from Fireplaces can go through blocks. (Default: 16)
 * enableHearthstoneTrade - Enables Hearthstone trade chance for Novice Innkeepers. (Default: true)
