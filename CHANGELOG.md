@@ -2,11 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0+1.21.1]
+
+### Added
+
+- Added additional colored Hearthstone items. Innkeeper's will choose a random color to sell.
+_All Hearthstones in a player's inventory, and ender chest, share the same cooldown._
+- Added Hearthstone item tag.
+
+### Changed
+
+- Changed Hearthstone teleportation to teleport the player in front of the bound Fireplace.
+
+### Fixed
+
+- Fixed location of language file.
+- Fixed mixin filenames to avoid collisions.
+
 ## [1.0.3]
 
 ### Changed
 
-- Moved head functionality to platform
+- Updated supported Platform version.
 
 ## [1.0.2]
 
