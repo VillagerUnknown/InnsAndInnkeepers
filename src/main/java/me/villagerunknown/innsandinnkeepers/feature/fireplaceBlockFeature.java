@@ -44,7 +44,6 @@ public class fireplaceBlockFeature {
 	public static void execute() {
 		registerScreenHandler();
 		registerBlocks();
-		registerBlockEntityType();
 	}
 	
 	private static void registerBlocks() {
@@ -53,6 +52,8 @@ public class fireplaceBlockFeature {
 		for (String blockType : blockTypes) {
 			registerBlock( blockType );
 		} // for
+		
+		registerBlockEntityType();
 	}
 	
 	private static void registerBlock( String blockType ) {

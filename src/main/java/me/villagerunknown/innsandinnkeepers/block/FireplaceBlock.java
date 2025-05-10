@@ -6,16 +6,14 @@ import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
 import me.villagerunknown.platform.util.MathUtil;
 import me.villagerunknown.platform.util.TimeUtil;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -24,7 +22,14 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
+import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -36,6 +41,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FireplaceBlock extends AbstractFurnaceBlock {
+	
+	public static final DirectionProperty FACING;
+	public static final BooleanProperty LIT;
 	
 	private static final List<Item> IGNITERS = new ArrayList<>(List.of(
 			Items.FLINT_AND_STEEL,
@@ -63,7 +71,7 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 		super(
 				Settings.copy(Blocks.SMOKER)
 		);
-		this.setDefaultState((BlockState)(this.stateManager.getDefaultState()).with(LIT, true));
+		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(LIT, true));
 	}
 	
 	public FireplaceBlock(AbstractBlock.Settings settings) {
@@ -78,6 +86,10 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
 		return validateTicker( type, fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY, FireplaceBlockEntity::tick );
+	}
+	
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		return (BlockState)this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
 	}
 	
 	protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
@@ -143,6 +155,23 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 		state = state.with(LIT,false);
 		world.setBlockState( pos, state );
 		return state;
+	}
+	
+	protected BlockState rotate(BlockState state, BlockRotation rotation) {
+		return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
+	}
+	
+	protected BlockState mirror(BlockState state, BlockMirror mirror) {
+		return state.rotate(mirror.getRotation((Direction)state.get(FACING)));
+	}
+	
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+		builder.add(new Property[]{FACING, LIT});
+	}
+	
+	static {
+		FACING = HorizontalFacingBlock.FACING;
+		LIT = Properties.LIT;
 	}
 	
 }
