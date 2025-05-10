@@ -11,7 +11,7 @@
     "issues":"https://github.com/VillagerUnknown/InnsAndInnkeepers/issues"
   },
   "license": "CC-BY-4.0",
-  "icon": "assets/innsandinnkeepers/villagerunknown-inns-and-innkeepers.png",
+  "icon": "assets/villagerunknown-innsandinnkeepers/villagerunknown-inns-and-innkeepers.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -25,9 +25,9 @@
     ]
   },
   "mixins": [
-    "innsandinnkeepers.mixins.json",
+    "villagerunknown-innsandinnkeepers.mixins.json",
     {
-      "config": "innsandinnkeepers.client.mixins.json",
+      "config": "villagerunknown-innsandinnkeepers.client.mixins.json",
       "environment": "client"
     }
   ],

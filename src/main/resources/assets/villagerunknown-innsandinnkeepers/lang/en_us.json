@@ -16,6 +16,7 @@
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.hearthstoneCooldownTime": "Hearthstone Cooldown Time",
 
   "tag.item.villagerunknown-innsandinnkeepers.fireplace": "Fireplace",
+  "tag.item.villagerunknown-innsandinnkeepers.hearthstone": "Hearthstone",
 
   "container.fireplace": "Fireplace",
 
@@ -32,7 +33,13 @@
   "block.villagerunknown-innsandinnkeepers.mud_brick_fireplace": "Mud Brick Fireplace",
   "block.villagerunknown-innsandinnkeepers.polished_blackstone_brick_fireplace": "Polished Blackstone Brick Fireplace",
 
-  "item.villagerunknown-innsandinnkeepers.hearthstone": "Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.hearthstone": "Blue Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.red_hearthstone": "Red Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.green_hearthstone": "Green Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.yellow_hearthstone": "Yellow Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.orange_hearthstone": "Orange Hearthstone",
+  "item.villagerunknown-innsandinnkeepers.purple_hearthstone": "Purple Hearthstone",
+
   "item.villagerunknown-innsandinnkeepers.hearthstone.bound": "Hearthstone bound.",
   "item.villagerunknown-innsandinnkeepers.hearthstone.notbound": "This Hearthstone is not bound to a Fireplace.",
   "item.villagerunknown-innsandinnkeepers.hearthstone.destroyed": "The bound Fireplace has been destroyed.",
