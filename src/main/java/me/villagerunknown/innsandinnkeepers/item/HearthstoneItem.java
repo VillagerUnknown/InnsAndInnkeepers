@@ -1,9 +1,10 @@
 package me.villagerunknown.innsandinnkeepers.item;
 
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
-import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
+import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
 import me.villagerunknown.platform.util.*;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.DataComponentTypes;
@@ -16,28 +17,27 @@ import net.minecraft.item.ItemUsage;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.particle.ParticleUtil;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.Optional;
+
+import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
 
 public class HearthstoneItem extends Item {
 	
@@ -130,7 +130,10 @@ public class HearthstoneItem extends Item {
 							BlockEntityType<?> trackedBlockType = trackedBlockEntity.getType();
 							
 							if( null != trackedBlockType && trackedBlockType == fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY ) {
-								BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, lodestoneTrackerComponent.target().get().pos(), 1);
+								BlockState blockState = dimWorld.getBlockState( trackedPos );
+								Direction facing = blockState.get( FireplaceBlock.FACING );
+								
+								BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, trackedPos.offset( facing ), 2);
 								
 								world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 								user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.VALUES, user.getYaw(), user.getPitch() );
@@ -138,8 +141,29 @@ public class HearthstoneItem extends Item {
 								EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 20, 0.05, -0.05, 0.05, 0.05);
 								
 								if( user instanceof PlayerEntity player ) {
-									player.getItemCooldownManager().set(this, COOLDOWN_TIME);
 									player.incrementStat(Stats.USED.getOrCreateStat(this));
+									
+									TagKey<Item> hearthstoneTagKey = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "hearthstone"));
+									
+									// Main Inventory
+									for (ItemStack inventoryStack : player.getInventory().main) {
+										if( inventoryStack.isIn( hearthstoneTagKey ) ) {
+											player.getItemCooldownManager().set(inventoryStack.getItem(), COOLDOWN_TIME);
+										} // if
+									} // for
+									
+									// Offhand Inventory
+									ItemStack offHandItemStack = player.getInventory().offHand.getFirst();
+									if( offHandItemStack.isIn( hearthstoneTagKey ) ) {
+										player.getItemCooldownManager().set(offHandItemStack.getItem(), COOLDOWN_TIME);
+									} // if
+									
+									// Ender Chest Inventory
+									for (ItemStack inventoryStack : player.getEnderChestInventory().heldStacks ) {
+										if( inventoryStack.isIn( hearthstoneTagKey ) ) {
+											player.getItemCooldownManager().set(inventoryStack.getItem(), COOLDOWN_TIME);
+										} // if
+									} // for
 								} // if
 							} else {
 								destroyed = true;
