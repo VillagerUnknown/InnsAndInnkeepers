@@ -2,21 +2,21 @@ package me.villagerunknown.innsandinnkeepers.feature;
 
 import com.google.common.collect.ImmutableList;
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
+import me.villagerunknown.innsandinnkeepers.item.HearthstoneItems;
 import me.villagerunknown.platform.util.ItemStackUtil;
 import me.villagerunknown.platform.util.PotionsUtil;
 import me.villagerunknown.platform.util.VillagerUtil;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.block.BlockState;
-import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.potion.Potions;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.TradedItem;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
@@ -46,7 +46,16 @@ public class innkeeperVillagerFeature {
 		// # Level 1
 		TradeOfferHelper.registerVillagerOffers( INNKEEPER.PROFESSION, 1, f -> {
 			if( Innsandinnkeepers.CONFIG.enableHearthstoneTrade ) {
-				f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 6 ), new ItemStack(hearthstoneItemFeature.HEARTHSTONE_ITEM, 1) ) );
+				Optional<Item> optionalHearthstoneItem = hearthstoneItemFeature.HEARTHSTONE_ITEMS.stream().findAny();
+				Item hearthstoneItem;
+				
+				if( optionalHearthstoneItem.isPresent() ) {
+					hearthstoneItem = optionalHearthstoneItem.get();
+				} else {
+					hearthstoneItem = HearthstoneItems.HEARTHSTONE_ITEM;
+				} // if, else
+				
+				f.add((entity, random) -> VillagerUtil.sellTradeOffer(1, new TradedItem(Items.EMERALD, 6), new ItemStack(hearthstoneItem, 1)));
 			} else {
 				f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), ItemStackUtil.createWaterBottleStack() ) );
 				f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), new ItemStack( Items.COOKIE, 3 ) ) );
