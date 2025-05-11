@@ -13,6 +13,9 @@ public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.Conf
 	@ConfigEntry.Category("Fireplaces")
 	public int maxFireplaceSmokeThroughBlocks = 16;
 	
+	@ConfigEntry.Category("Fireplaces")
+	public float chanceForSmokeVariation = 0.05F;
+	
 	/**
 	 * Innkeepers
 	 */
@@ -35,5 +38,8 @@ public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.Conf
 	
 	@ConfigEntry.Category("Hearthstones")
 	public int hearthstoneCooldownTime = 1000;
+	
+	@ConfigEntry.Category("Hearthstones")
+	public int hearthstoneSafeTeleportRange = 2;
 	
 }

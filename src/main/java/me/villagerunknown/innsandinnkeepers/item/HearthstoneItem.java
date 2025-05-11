@@ -133,7 +133,17 @@ public class HearthstoneItem extends Item {
 								BlockState blockState = dimWorld.getBlockState( trackedPos );
 								Direction facing = blockState.get( FireplaceBlock.FACING );
 								
-								BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, trackedPos.offset( facing ), 2);
+								BlockPos pos = trackedPos.offset( facing );
+								
+								if( !world.getBlockState( pos ).isAir() || !world.getBlockState( pos.up() ).isAir() ) {
+									int teleportRange = Innsandinnkeepers.CONFIG.hearthstoneSafeTeleportRange;
+									
+									if( teleportRange < fireplaceBlockFeature.MINIMUM_SAFE_TELEPORT_RANGE ) {
+										teleportRange = fireplaceBlockFeature.MINIMUM_SAFE_TELEPORT_RANGE;
+									} // if
+									
+									pos = PositionUtil.findSafeSpawnPosition( dimWorld, pos.offset( facing ), teleportRange );
+								} // if
 								
 								world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 								user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.VALUES, user.getYaw(), user.getPitch() );
@@ -209,7 +219,7 @@ public class HearthstoneItem extends Item {
 		if (lodestoneTrackerComponent != null) {
 			if( lodestoneTrackerComponent.target().isPresent() ) {
 				BlockPos pos = lodestoneTrackerComponent.target().get().pos();
-				String dimensionName = StringUtil.capitalize( lodestoneTrackerComponent.target().get().dimension().getValue().getPath().toLowerCase() );
+				String dimensionName = StringUtil.capitalizeAll( lodestoneTrackerComponent.target().get().dimension().getValue().getPath().toLowerCase().replace("the_","") );
 				
 				String boundTo = Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.boundto").getString();
 				tooltip.addLast( Text.of( "(" + boundTo + ": " + dimensionName + " @ "  + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );

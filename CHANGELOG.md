@@ -8,11 +8,14 @@ All notable changes to this project will be documented in this file.
 
 - Added additional colored Hearthstone items. Innkeeper's will choose a random color to sell.
 _All Hearthstones in a player's inventory, and ender chest, share the same cooldown._
-- Added Hearthstone item tag.
+- Added ability to cook food in Fireplaces. _Fireplaces accept the same recipes as Smokers._
+- Added `hearthstone` item tag.
+- Added `igniters` item tag.
+- Added `extinguishers` item tag.
 
 ### Changed
 
-- Changed Hearthstone teleportation to teleport the player in front of the bound Fireplace.
+- Hearthstones now teleport the player to a safe position in front of the bound Fireplace.
 
 ### Fixed
 

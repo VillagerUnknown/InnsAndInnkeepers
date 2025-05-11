@@ -9,19 +9,14 @@ import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
 import me.villagerunknown.innsandinnkeepers.screen.FireplaceScreenHandler;
 import me.villagerunknown.platform.util.MathUtil;
-import me.villagerunknown.platform.util.TimeUtil;
-import net.minecraft.block.AbstractFurnaceBlock;
+import me.villagerunknown.platform.util.WorldUtil;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.recipe.*;
@@ -30,10 +25,8 @@ import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.SmokerScreenHandler;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -42,6 +35,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionTypes;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
@@ -158,6 +152,8 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 			if (bl2) {
 				markDirty(world, pos, state);
 			}
+			
+			emitSmoke( world, pos, MathUtil.hasChance( 0.33F ) );
 		} else {
 			if( blockEntity.cookTime > 0) {
 				blockEntity.cookTime = MathHelper.clamp(blockEntity.cookTime - 2, 0, blockEntity.cookTimeTotal);
@@ -166,6 +162,49 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 			blockEntity.fuelTime = 0;
 			blockEntity.burnTime = 0;
 		}
+	}
+	
+	private static void emitSmoke( World world, BlockPos pos, boolean chance ) {
+		if( chance ) {
+			double d = (double)pos.getX() + 0.5;
+			double e = (double)pos.up().getY();
+			double f = (double)pos.getZ() + 0.5;
+			
+			if( !world.isAir( pos.up() ) ) {
+				for (int i = 2; i < FireplaceBlock.MAX_BLOCKS_SMOKE_PASSES_THROUGH + 2; i++) {
+					if( world.isAir( pos.up( i ) ) ) {
+						e = pos.up( i ).getY();
+						break;
+					} // if
+				} // for
+			} // if
+			
+			SimpleParticleType particleType = ParticleTypes.CAMPFIRE_COSY_SMOKE;
+			
+			if( MathUtil.hasChance( Innsandinnkeepers.CONFIG.chanceForSmokeVariation ) ) {
+				String dimensionId = world.getDimensionEntry().getIdAsString();
+				
+				switch( dimensionId ) {
+					case "minecraft:overworld":
+						particleType = fireplaceBlockFeature.EXTRA_OVERWORLD_SMOKE_PARTICLES.get((int) MathUtil.getRandomWithinRange(0, fireplaceBlockFeature.EXTRA_OVERWORLD_SMOKE_PARTICLES.size()));
+						break;
+					case "minecraft:the_nether":
+						particleType = fireplaceBlockFeature.EXTRA_NETHER_SMOKE_PARTICLES.get((int) MathUtil.getRandomWithinRange(0, fireplaceBlockFeature.EXTRA_NETHER_SMOKE_PARTICLES.size()));
+						break;
+					case "minecraft:the_end":
+						particleType = fireplaceBlockFeature.EXTRA_END_SMOKE_PARTICLES.get((int) MathUtil.getRandomWithinRange(0, fireplaceBlockFeature.EXTRA_END_SMOKE_PARTICLES.size()));
+						break;
+				} // switch
+			} // if
+			
+			Random random = Random.create();
+			
+			world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
+			
+			if( e > (double) FireplaceBlock.MAX_BLOCKS_SMOKE_PASSES_THROUGH / 2 ) {
+				world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
+			} // if
+		} // if
 	}
 	
 	private boolean isBurning() {

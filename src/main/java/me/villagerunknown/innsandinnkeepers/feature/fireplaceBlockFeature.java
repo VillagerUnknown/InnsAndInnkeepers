@@ -1,6 +1,5 @@
 package me.villagerunknown.innsandinnkeepers.feature;
 
-import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.screen.FireplaceScreenHandler;
@@ -8,6 +7,8 @@ import me.villagerunknown.platform.util.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.*;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -36,6 +37,37 @@ public class fireplaceBlockFeature {
 	public static final String FIREPLACE_STRING = "fireplace";
 	
 	public static final Item DEFAULT_FUEL = Items.STICK;
+	
+	public static final int MINIMUM_SAFE_TELEPORT_RANGE = 2;
+	
+	public static final List<SimpleParticleType> EXTRA_OVERWORLD_SMOKE_PARTICLES = Arrays.asList(
+			ParticleTypes.ASH,
+			ParticleTypes.WHITE_ASH,
+			ParticleTypes.CAMPFIRE_SIGNAL_SMOKE,
+			ParticleTypes.WHITE_SMOKE,
+			ParticleTypes.SMOKE,
+			ParticleTypes.LARGE_SMOKE,
+			ParticleTypes.DUST_PLUME,
+			ParticleTypes.POOF
+	);
+	
+	public static final List<SimpleParticleType> EXTRA_NETHER_SMOKE_PARTICLES = Arrays.asList(
+			ParticleTypes.ASH,
+			ParticleTypes.WHITE_ASH,
+			ParticleTypes.SMOKE,
+			ParticleTypes.LARGE_SMOKE,
+			ParticleTypes.FLAME,
+			ParticleTypes.SMALL_FLAME,
+			ParticleTypes.CRIMSON_SPORE
+	);
+	
+	public static final List<SimpleParticleType> EXTRA_END_SMOKE_PARTICLES = Arrays.asList(
+			ParticleTypes.ASH,
+			ParticleTypes.WHITE_ASH,
+			ParticleTypes.PORTAL,
+			ParticleTypes.DRAGON_BREATH,
+			ParticleTypes.END_ROD
+	);
 	
 	public static ScreenHandlerType<FireplaceScreenHandler> FIREPLACE_SCREEN_HANDLER = new ScreenHandlerType<>(FireplaceScreenHandler::new, FeatureFlags.VANILLA_FEATURES);
 	public static BlockEntityType<FireplaceBlockEntity> FIREPLACE_BLOCK_ENTITY = null;

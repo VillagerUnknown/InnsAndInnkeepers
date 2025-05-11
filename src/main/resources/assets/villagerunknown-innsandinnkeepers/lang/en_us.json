@@ -7,6 +7,7 @@
   "text.autoconfig.villagerunknown-innsandinnkeepers.category.Hearthstones": "Hearthstones",
 
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.maxFireplaceSmokeThroughBlocks": "Max Fireplace Smoke Through Blocks",
+  "text.autoconfig.villagerunknown-innsandinnkeepers.option.chanceForSmokeVariation": "Chance For Smoke Variation",
 
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.enableHearthstoneTrade": "Enable Hearthstone Trade",
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.enableGoldenAppleTrade": "Enable Golden Apple Trade",
@@ -14,6 +15,7 @@
 
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.hearthstoneUseTime": "Hearthstone Use Time",
   "text.autoconfig.villagerunknown-innsandinnkeepers.option.hearthstoneCooldownTime": "Hearthstone Cooldown Time",
+  "text.autoconfig.villagerunknown-innsandinnkeepers.option.hearthstoneSafeTeleportRange": "Hearthstone Safe Teleport Range",
 
   "tag.item.villagerunknown-innsandinnkeepers.fireplace": "Fireplace",
   "tag.item.villagerunknown-innsandinnkeepers.hearthstone": "Hearthstone",
