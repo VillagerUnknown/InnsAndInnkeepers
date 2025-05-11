@@ -106,88 +106,70 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		return Text.translatable("container.fireplace");
 	}
 	
-	protected int getFuelTime(ItemStack fuel) {
-		return 20000;
-	}
-	
 	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
 		return new FireplaceScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
 	}
 	
+	protected DefaultedList<ItemStack> getHeldStacks() {
+		return this.inventory;
+	}
+	
+	protected void setHeldStacks(DefaultedList<ItemStack> inventory) {
+		this.inventory = inventory;
+	}
+	
 	public static void tick(World world, BlockPos pos, BlockState state, FireplaceBlockEntity blockEntity) {
-		boolean bl = blockEntity.isBurning();
+		boolean bl = state.get(FireplaceBlock.LIT);
 		boolean bl2 = false;
-
-		ItemStack itemStack = (ItemStack)blockEntity.inventory.get(1);
-		ItemStack itemStack2 = (ItemStack)blockEntity.inventory.get(0);
-		boolean bl3 = !itemStack2.isEmpty();
-		boolean bl4 = !itemStack.isEmpty();
-		if (blockEntity.isBurning()) {
-			RecipeEntry<?> recipeEntry = blockEntity.matchGetter.getFirstMatch(new SingleStackRecipeInput(itemStack2), world).orElse(null);
-//			Innsandinnkeepers.LOGGER.info( "Recipe: " + recipeEntry );
-			int i = blockEntity.getMaxCountPerStack();
-
-			if (blockEntity.isCooking() && canAcceptRecipeOutput(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
-				++blockEntity.cookTime;
-				if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
-					blockEntity.cookTime = 0;
-					blockEntity.cookTimeTotal = getCookTime(world, blockEntity);
-					if (craftRecipe(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
-						blockEntity.setLastRecipe(recipeEntry);
+		if (bl) {
+			ItemStack itemStack = new ItemStack( fireplaceBlockFeature.DEFAULT_FUEL );
+			ItemStack itemStack2 = (ItemStack)blockEntity.inventory.get(0);
+			boolean bl3 = !itemStack2.isEmpty();
+			boolean bl4 = !itemStack.isEmpty();
+			
+			if( 0 == blockEntity.burnTime ) {
+				blockEntity.burnTime = blockEntity.getFuelTime( itemStack );
+				blockEntity.fuelTime = blockEntity.burnTime;
+			} // if
+			
+			--blockEntity.burnTime;
+			
+			if (bl4 && bl3) {
+				RecipeEntry<?> recipeEntry = (RecipeEntry)blockEntity.matchGetter.getFirstMatch(new SingleStackRecipeInput(itemStack2), world).orElse(null);
+				
+				int i = blockEntity.getMaxCountPerStack();
+				
+				if (bl && canAcceptRecipeOutput(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
+					++blockEntity.cookTime;
+					if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
+						blockEntity.cookTime = 0;
+						blockEntity.cookTimeTotal = getCookTime(world, blockEntity);
+						if (craftRecipe(world.getRegistryManager(), recipeEntry, blockEntity.inventory, i)) {
+							blockEntity.setLastRecipe(recipeEntry);
+						}
+						
+						bl2 = true;
 					}
-
-					bl2 = true;
+				} else {
+					blockEntity.cookTime = 0;
 				}
-			} else {
-				blockEntity.cookTime = 0;
-			}
-		} else if (!blockEntity.isCooking() && blockEntity.cookTime > 0) {
-			blockEntity.cookTime = MathHelper.clamp(blockEntity.cookTime - 2, 0, blockEntity.cookTimeTotal);
-		}
-
-		if( blockEntity.isBurning() ) {
-			bl2 = true;
-//			state = (BlockState)state.with(AbstractFurnaceBlock.LIT, true);
-			world.setBlockState(pos, state, 3);
-		}
-		
-		if( bl2 ) {
-			markDirty(world, pos, state);
-		}
-		
-		if( (Boolean)state.get(FireplaceBlock.LIT) && MathUtil.hasChance( 0.33F ) ) {
-			double d = (double)pos.getX() + 0.5;
-			double e = (double)pos.up().getY();
-			double f = (double)pos.getZ() + 0.5;
-			
-			if( !world.isAir( pos.up() ) ) {
-				for (int i = 2; i < FireplaceBlock.MAX_BLOCKS_SMOKE_PASSES_THROUGH + 2; i++) {
-					if( world.isAir( pos.up( i ) ) ) {
-						e = pos.up( i ).getY();
-						break;
-					} // if
-				} // for
-			} // if
-			
-			SimpleParticleType particleType = ParticleTypes.CAMPFIRE_COSY_SMOKE;
-			
-			if( MathUtil.hasChance( 0.01F ) ) {
-				particleType = ParticleTypes.CAMPFIRE_SIGNAL_SMOKE;
 			}
 			
-			Random random = Random.create();
+			if (bl2) {
+				markDirty(world, pos, state);
+			}
+		} else {
+			if( blockEntity.cookTime > 0) {
+				blockEntity.cookTime = MathHelper.clamp(blockEntity.cookTime - 2, 0, blockEntity.cookTimeTotal);
+			}
 			
-			world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
-			
-			if( e > (double) FireplaceBlock.MAX_BLOCKS_SMOKE_PASSES_THROUGH / 2 ) {
-				world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
-			} // if
-		} // if
-		
+			blockEntity.fuelTime = 0;
+			blockEntity.burnTime = 0;
+		}
 	}
 	
 	private boolean isBurning() {
-		return true;
+		return this.burnTime > 0;
 	}
 	
 	private boolean isCooking() {
@@ -231,10 +213,6 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 				itemStack3.increment(1);
 			}
 			
-			if (itemStack.isOf(Blocks.WET_SPONGE.asItem()) && !((ItemStack)slots.get(0)).isEmpty() && ((ItemStack)slots.get(0)).isOf(Items.BUCKET)) {
-				slots.set(0, new ItemStack(Items.WATER_BUCKET));
-			}
-			
 			itemStack.decrement(1);
 			return true;
 		} else {
@@ -254,7 +232,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		this.burnTime = nbt.getShort("BurnTime");
 		this.cookTime = nbt.getShort("CookTime");
 		this.cookTimeTotal = nbt.getShort("CookTimeTotal");
-		this.fuelTime = this.getFuelTime((ItemStack)this.inventory.get(1));
+		this.fuelTime = this.getFuelTime(new ItemStack( fireplaceBlockFeature.DEFAULT_FUEL ));
 		NbtCompound nbtCompound = nbt.getCompound("RecipesUsed");
 		Iterator var4 = nbtCompound.getKeys().iterator();
 		
@@ -286,9 +264,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		if (slot == 0 && !bl) {
 			this.cookTimeTotal = getCookTime(this.world, this);
 			this.cookTime = 0;
-			this.markDirty();
 		}
-		
 	}
 	
 	public boolean isValid(int slot, ItemStack stack) {

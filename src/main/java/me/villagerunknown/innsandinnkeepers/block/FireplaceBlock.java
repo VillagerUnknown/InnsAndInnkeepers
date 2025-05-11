@@ -18,6 +18,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -30,6 +33,7 @@ import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -40,24 +44,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
+
 public class FireplaceBlock extends AbstractFurnaceBlock {
 	
 	public static final DirectionProperty FACING;
 	public static final BooleanProperty LIT;
-	
-	private static final List<Item> IGNITERS = new ArrayList<>(List.of(
-			Items.FLINT_AND_STEEL,
-			Items.FIRE_CHARGE
-	));
-	
-	private static final List<Item> EXTINGUISHERS = new ArrayList<>(List.of(
-			Items.WOODEN_SHOVEL,
-			Items.STONE_SHOVEL,
-			Items.IRON_SHOVEL,
-			Items.GOLDEN_SHOVEL,
-			Items.DIAMOND_SHOVEL,
-			Items.NETHERITE_SHOVEL
-	));
 	
 	public static final int MAX_BLOCKS_SMOKE_PASSES_THROUGH = Innsandinnkeepers.CONFIG.maxFireplaceSmokeThroughBlocks;
 	
@@ -93,11 +85,11 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 	}
 	
 	protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
-//		BlockEntity blockEntity = world.getBlockEntity(pos);
-//		if (blockEntity instanceof FireplaceBlockEntity) {
-//			player.openHandledScreen((NamedScreenHandlerFactory)blockEntity);
-//			player.incrementStat(Stats.INTERACT_WITH_SMOKER);
-//		}
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof FireplaceBlockEntity) {
+			player.openHandledScreen((NamedScreenHandlerFactory)blockEntity);
+//			player.incrementStat( Stats.USED.getOrCreateStat(this) );
+		}
 	}
 	
 	@Override
@@ -105,21 +97,25 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 		ItemStack stackInHand = player.getMainHandStack();
 		
 		if( null != stackInHand && !stackInHand.isEmpty() ) {
-			Item itemInHand = stackInHand.getItem();
+			boolean changed = false;
 			
-			if( !state.get(LIT) && IGNITERS.contains( itemInHand ) ) {
+			if( !state.get(LIT) && stackInHand.isIn( TagKey.of( RegistryKeys.ITEM, Identifier.of(MOD_ID, "igniters")) ) ) {
 				state = ignite( world, state, pos );
-				
-				if( Items.FIRE_CHARGE == itemInHand ) {
-					stackInHand.decrementUnlessCreative(1, player);
-				} else if( Items.FLINT_AND_STEEL == itemInHand  ) {
-					stackInHand.damage(1, player, LivingEntity.getSlotForHand(player.getActiveHand()));
-				} // if, else
-			} else if( state.get(LIT) && EXTINGUISHERS.contains( itemInHand ) ) {
+				changed = true;
+			} else if( state.get(LIT) && stackInHand.isIn( TagKey.of( RegistryKeys.ITEM, Identifier.of(MOD_ID, "extinguishers")) ) ) {
 				state = extinguish( world, state, pos );
-				
-				stackInHand.damage(1, player, LivingEntity.getSlotForHand(player.getActiveHand()));
+				changed = true;
 			} // if, else if
+			
+			if( changed ) {
+				if( stackInHand.isDamageable() ) {
+					stackInHand.damage(1, player, LivingEntity.getSlotForHand(player.getActiveHand()));
+				} else {
+					stackInHand.decrementUnlessCreative(1, player);
+				} // if, else
+				
+				return ActionResult.SUCCESS;
+			} // if
 		} // if
 		
 		return super.onUse(state, world, pos, player, hit);
@@ -135,13 +131,6 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 			} // if
 		} // if
 	}
-	
-//	@Override
-//	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-//		world.setBlockState( pos, state.with( LIT, true ) );
-//
-//		super.onPlaced(world, pos, state, placer, itemStack);
-//	}
 	
 	public BlockState ignite( World world, BlockState state, BlockPos pos ) {
 		world.playSoundAtBlockCenter( pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 0.5F, 1, true );

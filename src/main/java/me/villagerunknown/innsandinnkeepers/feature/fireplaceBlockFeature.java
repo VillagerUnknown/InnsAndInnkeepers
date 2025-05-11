@@ -1,14 +1,13 @@
 package me.villagerunknown.innsandinnkeepers.feature;
 
+import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.screen.FireplaceScreenHandler;
 import me.villagerunknown.platform.util.RegistryUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
+import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -35,6 +34,9 @@ public class fireplaceBlockFeature {
 	));
 	
 	public static final String FIREPLACE_STRING = "fireplace";
+	
+	public static final Item DEFAULT_FUEL = Items.STICK;
+	
 	public static ScreenHandlerType<FireplaceScreenHandler> FIREPLACE_SCREEN_HANDLER = new ScreenHandlerType<>(FireplaceScreenHandler::new, FeatureFlags.VANILLA_FEATURES);
 	public static BlockEntityType<FireplaceBlockEntity> FIREPLACE_BLOCK_ENTITY = null;
 	

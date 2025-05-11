@@ -2,6 +2,7 @@ package me.villagerunknown.innsandinnkeepers.screen;
 
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -37,7 +38,7 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 		this.inventory = inventory;
 		this.propertyDelegate = propertyDelegate;
 		this.world = playerInventory.player.getWorld();
-		this.addSlot(new Slot(inventory, 0, 56, 17));
+		this.addSlot(new Slot(inventory, 0, 56, 27));
 		this.addSlot(new FurnaceOutputSlot(playerInventory.player, inventory, 1, 116, 35));
 		
 		int i;
@@ -97,12 +98,12 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 			ItemStack itemStack2 = slot2.getStack();
 			itemStack = itemStack2.copy();
 			if (slot == 1) {
-				if (!this.insertItem(itemStack2, 2, 38, true)) {
+				if (!this.insertItem(itemStack2, 1, 38, true)) {
 					return ItemStack.EMPTY;
 				}
 				
 				slot2.onQuickTransfer(itemStack2, itemStack);
-			} else if (slot != 0) {
+			} else if (slot != 1 && slot != 0) {
 				if (this.isSmeltable(itemStack2)) {
 					if (!this.insertItem(itemStack2, 0, 1, false)) {
 						return ItemStack.EMPTY;
@@ -111,10 +112,10 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 					if (!this.insertItem(itemStack2, 29, 38, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (slot >= 29 && slot < 38 && !this.insertItem(itemStack2, 2, 29, false)) {
+				} else if (slot >= 30 && slot < 38 && !this.insertItem(itemStack2, 2, 29, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.insertItem(itemStack2, 2, 38, false)) {
+			} else if (!this.insertItem(itemStack2, 1, 38, false)) {
 				return ItemStack.EMPTY;
 			}
 			
@@ -149,11 +150,16 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 	}
 	
 	public float getFuelProgress() {
-		return 1;
+		int i = this.propertyDelegate.get(1);
+		if (i == 0) {
+			i = 200;
+		}
+		
+		return MathHelper.clamp((float)this.propertyDelegate.get(0) / (float)i, 0.0F, 1.0F);
 	}
 	
 	public boolean isBurning() {
-		return true;
+		return this.propertyDelegate.get(0) > 0;
 	}
 	
 	public RecipeBookCategory getCategory() {
@@ -163,4 +169,5 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 	public boolean canInsertIntoSlot(int index) {
 		return index != 1;
 	}
+	
 }

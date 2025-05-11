@@ -74,12 +74,12 @@ public class FireplaceScreen extends HandledScreen<FireplaceScreenHandler> imple
 		if ((this.handler).isBurning()) {
 			k = true;
 			l = MathHelper.ceil((this.handler).getFuelProgress() * 13.0F) + 1;
-			context.drawGuiTexture(this.litProgressTexture, 14, 14, 0, 14 - l, i + 56, j + 54 + 14 - l, 14, l);
+			context.drawGuiTexture(this.litProgressTexture, 14, 14, 0, 14 - l, i + 56, j + 36 + 24 - l, 14, l);
 		}
 		
 		k = true;
 		l = MathHelper.ceil((this.handler).getCookProgress() * 24.0F);
-		context.drawGuiTexture(this.burnProgressTexture, 24, 16, 0, 0, i + 79, j + 54, l, 16);
+		context.drawGuiTexture(this.burnProgressTexture, 24, 16, 0, 0, i + 79, j + 34, l, 16);
 	}
 	
 	public boolean mouseClicked(double mouseX, double mouseY, int button) {
