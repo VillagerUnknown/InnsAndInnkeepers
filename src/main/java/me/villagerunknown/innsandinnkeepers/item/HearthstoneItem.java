@@ -22,6 +22,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -190,12 +191,14 @@ public class HearthstoneItem extends Item {
 			} else {
 				MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.notbound" ).getString());
 			} // if, else
-		} // if
-		
-		if( destroyed ) {
-			MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.destroyed" ).getString());
 			
-			itemStack.remove(DataComponentTypes.LODESTONE_TRACKER);
+			if( destroyed ) {
+				MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.destroyed" ).getString());
+				
+				itemStack.remove(DataComponentTypes.LODESTONE_TRACKER);
+			} else {
+				MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.teleported").getString());
+			} // if, else
 		} // if
 		
 		return itemStack;

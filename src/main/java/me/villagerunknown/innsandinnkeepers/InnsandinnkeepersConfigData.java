@@ -11,6 +11,9 @@ public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.Conf
 	 */
 	
 	@ConfigEntry.Category("Fireplaces")
+	public boolean enableFireplaceCooking = true;
+	
+	@ConfigEntry.Category("Fireplaces")
 	public int maxFireplaceSmokeThroughBlocks = 16;
 	
 	@ConfigEntry.Category("Fireplaces")

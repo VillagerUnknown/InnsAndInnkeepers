@@ -85,11 +85,13 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 	}
 	
 	protected void openScreen(World world, BlockPos pos, PlayerEntity player) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof FireplaceBlockEntity) {
-			player.openHandledScreen((NamedScreenHandlerFactory)blockEntity);
-//			player.incrementStat( Stats.USED.getOrCreateStat(this) );
-		}
+		if( Innsandinnkeepers.CONFIG.enableFireplaceCooking ) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof FireplaceBlockEntity) {
+				player.openHandledScreen((NamedScreenHandlerFactory) blockEntity);
+//				player.incrementStat( Stats.USED.getOrCreateStat(this) );
+			}
+		} // if
 	}
 	
 	@Override
