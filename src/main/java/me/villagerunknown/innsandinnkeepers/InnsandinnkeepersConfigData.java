@@ -17,7 +17,7 @@ public class InnsandinnkeepersConfigData implements me.shedaniel.autoconfig.Conf
 	public int maxFireplaceSmokeThroughBlocks = 16;
 	
 	@ConfigEntry.Category("Fireplaces")
-	public float chanceForSmokeVariation = 0.05F;
+	public float chanceForSmokeVariation = 0.1F;
 	
 	/**
 	 * Innkeepers
