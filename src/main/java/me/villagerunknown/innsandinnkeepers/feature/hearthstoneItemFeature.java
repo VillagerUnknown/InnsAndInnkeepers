@@ -32,7 +32,7 @@ public class hearthstoneItemFeature {
 	public static Item registerHearthstoneItem( String id, Item item ) {
 		Item registeredItem = RegistryUtil.registerItem( id, item, Innsandinnkeepers.MOD_ID );
 		
-		RegistryUtil.addItemToGroup( ItemGroups.TOOLS, registeredItem );
+		RegistryUtil.addItemToGroup( Innsandinnkeepers.CUSTOM_ITEM_GROUP_KEY, registeredItem );
 		
 		return registeredItem;
 	}

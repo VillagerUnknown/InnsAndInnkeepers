@@ -31,8 +31,10 @@ import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.GlobalPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -135,8 +137,10 @@ public class HearthstoneItem extends Item {
 								Direction facing = blockState.get( FireplaceBlock.FACING );
 								
 								BlockPos pos = trackedPos.offset( facing );
+								ChunkPos chunkPos = world.getWorldChunk( pos ).getPos();
+								BlockView blockView = world.getChunkAsView( chunkPos.x, chunkPos.z );
 								
-								if( !world.getBlockState( pos ).isAir() || !world.getBlockState( pos.up() ).isAir() ) {
+								if( !world.getBlockState( pos ).shouldSuffocate( blockView, pos ) || !world.getBlockState( pos.up() ).shouldSuffocate( blockView, pos.up() ) ) {
 									int teleportRange = Innsandinnkeepers.CONFIG.hearthstoneSafeTeleportRange;
 									
 									if( teleportRange < fireplaceBlockFeature.MINIMUM_SAFE_TELEPORT_RANGE ) {

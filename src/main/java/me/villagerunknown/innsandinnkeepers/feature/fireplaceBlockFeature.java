@@ -1,5 +1,6 @@
 package me.villagerunknown.innsandinnkeepers.feature;
 
+import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.entity.block.FireplaceBlockEntity;
 import me.villagerunknown.innsandinnkeepers.screen.FireplaceScreenHandler;
@@ -93,7 +94,7 @@ public class fireplaceBlockFeature {
 	private static void registerBlock( String blockType ) {
 		Block block = new FireplaceBlock();
 		
-		RegistryUtil.addItemToGroup( ItemGroups.FUNCTIONAL, RegistryUtil.registerItem( blockType + "_" + FIREPLACE_STRING, new BlockItem( block, new Item.Settings() ), MOD_ID ) );
+		RegistryUtil.addItemToGroup( Innsandinnkeepers.CUSTOM_ITEM_GROUP_KEY, RegistryUtil.registerItem( blockType + "_" + FIREPLACE_STRING, new BlockItem( block, new Item.Settings() ), MOD_ID ) );
 		
 		BLOCKS.put( blockType + "_" + FIREPLACE_STRING, RegistryUtil.registerBlock( blockType + "_" + FIREPLACE_STRING, block, MOD_ID ) );
 	}

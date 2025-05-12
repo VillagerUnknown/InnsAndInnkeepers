@@ -27,6 +27,8 @@
 
   "entity.minecraft.villager.innkeeper": "Innkeeper",
 
+  "itemGroup.villagerunknown-innsandinnkeepers": "Inns & Innkeepers",
+
   "block.villagerunknown-innsandinnkeepers.cobblestone_fireplace": "Cobblestone Fireplace",
   "block.villagerunknown-innsandinnkeepers.cobbled_deepslate_fireplace": "Cobbled Deepslate Fireplace",
   "block.villagerunknown-innsandinnkeepers.mossy_cobblestone_fireplace": "Mossy Cobblestone Fireplace",
