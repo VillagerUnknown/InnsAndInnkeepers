@@ -20,6 +20,7 @@ _All Hearthstones in a player's inventory, and ender chest, share the same coold
 
 - Hearthstones now teleport the player to a safe position in front of the bound Fireplace.
 - Changed item groups for Hearthstones and Fireplaces to a custom Inns & Innkeepers group.
+- Changed supported Platform version to 1.3.0. _This resolves stuttering issues and includes new features._
 
 ### Fixed
 
