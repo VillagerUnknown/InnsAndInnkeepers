@@ -15,7 +15,9 @@ import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
@@ -31,6 +33,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
@@ -261,7 +264,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	
 	private static int getCookTime(World world, FireplaceBlockEntity furnace) {
 		SingleStackRecipeInput singleStackRecipeInput = new SingleStackRecipeInput(furnace.getStack(0));
-		return (Integer)furnace.matchGetter.getFirstMatch(singleStackRecipeInput, world).map((recipe) -> recipe.value().getCookingTime()).orElse(200);
+		return (Integer)furnace.matchGetter.getFirstMatch(singleStackRecipeInput, world).map((recipe) -> recipe.value().getCookingTime()).orElse(200) * 2;
 	}
 	
 	protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
@@ -295,6 +298,22 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		nbt.put("RecipesUsed", nbtCompound);
 	}
 	
+	public int[] getAvailableSlots(Direction side) {
+		if (side == Direction.DOWN) {
+			return new int[]{1};
+		} else {
+			return new int[]{0};
+		} // if, else
+	}
+	
+	public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
+		return this.isValid(slot, stack);
+	}
+	
+	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
+		return (1 == slot);
+	}
+	
 	public void setStack(int slot, ItemStack stack) {
 		ItemStack itemStack = (ItemStack)this.inventory.get(slot);
 		boolean bl = !stack.isEmpty() && ItemStack.areItemsAndComponentsEqual(itemStack, stack);
@@ -307,11 +326,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	}
 	
 	public boolean isValid(int slot, ItemStack stack) {
-		if (slot == 1) {
-			return false;
-		}
-		
-		return true;
+		return (1 != slot);
 	}
 	
 	public void setLastRecipe(@Nullable RecipeEntry<?> recipe) {
