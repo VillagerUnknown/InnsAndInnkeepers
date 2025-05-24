@@ -299,7 +299,9 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	}
 	
 	public int[] getAvailableSlots(Direction side) {
-		if (side == Direction.DOWN) {
+		if( !Innsandinnkeepers.CONFIG.enableFireplaceCooking ) {
+			return new int[]{};
+		} else if(side == Direction.DOWN) {
 			return new int[]{1};
 		} else {
 			return new int[]{0};
@@ -326,7 +328,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	}
 	
 	public boolean isValid(int slot, ItemStack stack) {
-		return (1 != slot);
+		return (Innsandinnkeepers.CONFIG.enableFireplaceCooking && 1 != slot);
 	}
 	
 	public void setLastRecipe(@Nullable RecipeEntry<?> recipe) {
