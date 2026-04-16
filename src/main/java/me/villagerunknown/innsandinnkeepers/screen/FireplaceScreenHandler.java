@@ -10,22 +10,24 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeBookCategory;
+import net.minecraft.recipe.book.RecipeBookType;
 import net.minecraft.recipe.input.SingleStackRecipeInput;
 import net.minecraft.screen.AbstractRecipeScreenHandler;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.slot.FurnaceOutputSlot;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleStackRecipeInput, AbstractCookingRecipe> {
+public class FireplaceScreenHandler extends AbstractRecipeScreenHandler {
 	
 	private final Inventory inventory;
 	private final PropertyDelegate propertyDelegate;
 	protected final World world;
 	private final RecipeType<? extends AbstractCookingRecipe> recipeType = RecipeType.SMOKING;
-	private final RecipeBookCategory category = RecipeBookCategory.SMOKER;
+	private final RecipeBookType category = RecipeBookType.SMOKER;
 	
 	public FireplaceScreenHandler(int syncId, PlayerInventory playerInventory) {
 		this(syncId, playerInventory, new SimpleInventory(2), new ArrayPropertyDelegate(4));
@@ -53,13 +55,6 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 		}
 		
 		this.addProperties(propertyDelegate);
-	}
-	
-	public void populateRecipeFinder(RecipeMatcher finder) {
-		if (this.inventory instanceof RecipeInputProvider) {
-			((RecipeInputProvider)this.inventory).provideRecipeInputs(finder);
-		}
-		
 	}
 	
 	public void clearCraftingSlots() {
@@ -98,12 +93,12 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 			ItemStack itemStack2 = slot2.getStack();
 			itemStack = itemStack2.copy();
 			if (slot == 1) {
-				if (!this.insertItem(itemStack2, 1, 38, true)) {
+				if (!this.insertItem(itemStack2, 2, 38, true)) {
 					return ItemStack.EMPTY;
 				}
 				
 				slot2.onQuickTransfer(itemStack2, itemStack);
-			} else if (slot != 1 && slot != 0) {
+			} else if (slot != 0) {
 				if (this.isSmeltable(itemStack2)) {
 					if (!this.insertItem(itemStack2, 0, 1, false)) {
 						return ItemStack.EMPTY;
@@ -112,10 +107,10 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 					if (!this.insertItem(itemStack2, 29, 38, false)) {
 						return ItemStack.EMPTY;
 					}
-				} else if (slot >= 30 && slot < 38 && !this.insertItem(itemStack2, 2, 29, false)) {
+				} else if (slot >= 29 && slot < 38 && !this.insertItem(itemStack2, 2, 29, false)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.insertItem(itemStack2, 1, 38, false)) {
+			} else if (!this.insertItem(itemStack2, 2, 38, false)) {
 				return ItemStack.EMPTY;
 			}
 			
@@ -136,7 +131,8 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 	}
 	
 	protected boolean isSmeltable(ItemStack itemStack) {
-		return this.world.getRecipeManager().getFirstMatch(this.recipeType, new SingleStackRecipeInput(itemStack), this.world).isPresent();
+		return true;
+//		return recipePropertySet.canUse(itemStack);
 	}
 	
 	protected boolean isFuel(ItemStack itemStack) {
@@ -150,24 +146,28 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler<SingleSt
 	}
 	
 	public float getFuelProgress() {
-		int i = this.propertyDelegate.get(1);
-		if (i == 0) {
-			i = 200;
-		}
-		
-		return MathHelper.clamp((float)this.propertyDelegate.get(0) / (float)i, 0.0F, 1.0F);
+		return 1;
 	}
 	
 	public boolean isBurning() {
-		return this.propertyDelegate.get(0) > 0;
+		return true;
 	}
 	
-	public RecipeBookCategory getCategory() {
+	@Override
+	public PostFillAction fillInputSlots(boolean craftAll, boolean creative, RecipeEntry<?> recipe, ServerWorld world, PlayerInventory inventory) {
+		return null;
+	}
+	
+	@Override
+	public void populateRecipeFinder(RecipeFinder finder) {
+	
+	}
+	
+	public RecipeBookType getCategory() {
 		return this.category;
 	}
 	
 	public boolean canInsertIntoSlot(int index) {
 		return index != 1;
 	}
-	
 }

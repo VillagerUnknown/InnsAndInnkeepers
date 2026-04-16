@@ -18,7 +18,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -27,7 +29,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
@@ -48,7 +50,7 @@ import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
 
 public class FireplaceBlock extends AbstractFurnaceBlock {
 	
-	public static final DirectionProperty FACING;
+	public static final EnumProperty<Direction> FACING;
 	public static final BooleanProperty LIT;
 	
 	public static final int MAX_BLOCKS_SMOKE_PASSES_THROUGH = Innsandinnkeepers.CONFIG.maxFireplaceSmokeThroughBlocks;
@@ -59,9 +61,10 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 		return CODEC;
 	}
 	
-	public FireplaceBlock() {
+	public FireplaceBlock( String path ) {
 		super(
 				Settings.copy(Blocks.SMOKER)
+						.registryKey(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(MOD_ID,path)))
 		);
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(LIT, true));
 	}
