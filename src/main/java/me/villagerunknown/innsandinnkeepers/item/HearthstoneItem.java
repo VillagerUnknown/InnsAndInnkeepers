@@ -3,6 +3,7 @@ package me.villagerunknown.innsandinnkeepers.item;
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
+import me.villagerunknown.innsandinnkeepers.feature.hearthstoneItemFeature;
 import me.villagerunknown.platform.util.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -15,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.consume.UseAction;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.particle.ParticleTypes;
@@ -92,7 +94,7 @@ public class HearthstoneItem extends Item {
 					MessageUtil.sendChatMessage(context.getPlayer(), Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.bound" ).getString());
 				} // if
 				
-				return ActionResult.success(world.isClient);
+				return ActionResult.SUCCESS;
 			} // if
 		} // if
 		
@@ -100,14 +102,14 @@ public class HearthstoneItem extends Item {
 	}
 	
 	@Override
-	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+	public ActionResult use(World world, PlayerEntity user, Hand hand) {
 		if( !world.isClient() ) {
 			world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.BLOCK_BELL_USE, SoundCategory.PLAYERS, 1.0F, 1.0F);
 			
 			return ItemUsage.consumeHeldItem(world, user, hand);
 		} // if
 		
-		return TypedActionResult.pass(user.getStackInHand( hand ));
+		return ActionResult.PASS;
 	}
 	
 	@Override
@@ -133,52 +135,16 @@ public class HearthstoneItem extends Item {
 							BlockEntityType<?> trackedBlockType = trackedBlockEntity.getType();
 							
 							if( null != trackedBlockType && trackedBlockType == fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY ) {
-								BlockState blockState = dimWorld.getBlockState( trackedPos );
-								Direction facing = blockState.get( FireplaceBlock.FACING );
-								
-								BlockPos pos = trackedPos.offset( facing );
-								ChunkPos chunkPos = world.getWorldChunk( pos ).getPos();
-								BlockView blockView = world.getChunkAsView( chunkPos.x, chunkPos.z );
-								
-								if( !world.getBlockState( pos ).shouldSuffocate( blockView, pos ) || !world.getBlockState( pos.up() ).shouldSuffocate( blockView, pos.up() ) ) {
-									int teleportRange = Innsandinnkeepers.CONFIG.hearthstoneSafeTeleportRange;
-									
-									if( teleportRange < fireplaceBlockFeature.MINIMUM_SAFE_TELEPORT_RANGE ) {
-										teleportRange = fireplaceBlockFeature.MINIMUM_SAFE_TELEPORT_RANGE;
-									} // if
-									
-									pos = PositionUtil.findSafeSpawnPosition( dimWorld, pos.offset( facing ), teleportRange );
-								} // if
+								BlockPos pos = PositionUtil.findSafeSpawnPosition( dimWorld, lodestoneTrackerComponent.target().get().pos(), 2);
 								
 								world.playSound((PlayerEntity)null, user.getBlockPos(), SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
-								user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.VALUES, user.getYaw(), user.getPitch() );
+								user.teleport( dimWorld, pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5, PositionFlag.DELTA, user.getYaw(), user.getPitch(), false );
 								world.playSound((PlayerEntity)null, pos, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 								EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 20, 0.05, -0.05, 0.05, 0.05);
 								
 								if( user instanceof PlayerEntity player ) {
+									player.getItemCooldownManager().set(Identifier.of(MOD_ID,hearthstoneItemFeature.HEARTHSTONE_STRING), COOLDOWN_TIME);
 									player.incrementStat(Stats.USED.getOrCreateStat(this));
-									
-									TagKey<Item> hearthstoneTagKey = TagKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "hearthstone"));
-									
-									// Main Inventory
-									for (ItemStack inventoryStack : player.getInventory().main) {
-										if( inventoryStack.isIn( hearthstoneTagKey ) ) {
-											player.getItemCooldownManager().set(inventoryStack.getItem(), COOLDOWN_TIME);
-										} // if
-									} // for
-									
-									// Offhand Inventory
-									ItemStack offHandItemStack = player.getInventory().offHand.getFirst();
-									if( offHandItemStack.isIn( hearthstoneTagKey ) ) {
-										player.getItemCooldownManager().set(offHandItemStack.getItem(), COOLDOWN_TIME);
-									} // if
-									
-									// Ender Chest Inventory
-									for (ItemStack inventoryStack : player.getEnderChestInventory().heldStacks ) {
-										if( inventoryStack.isIn( hearthstoneTagKey ) ) {
-											player.getItemCooldownManager().set(inventoryStack.getItem(), COOLDOWN_TIME);
-										} // if
-									} // for
 								} // if
 							} else {
 								destroyed = true;
@@ -195,14 +161,12 @@ public class HearthstoneItem extends Item {
 			} else {
 				MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.notbound" ).getString());
 			} // if, else
+		} // if
+		
+		if( destroyed ) {
+			MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.destroyed" ).getString());
 			
-			if( destroyed ) {
-				MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable( "item.villagerunknown-innsandinnkeepers.hearthstone.destroyed" ).getString());
-				
-				itemStack.remove(DataComponentTypes.LODESTONE_TRACKER);
-			} else {
-				MessageUtil.sendChatMessage((PlayerEntity) user, Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.teleported").getString());
-			} // if, else
+			itemStack.remove(DataComponentTypes.LODESTONE_TRACKER);
 		} // if
 		
 		return itemStack;
@@ -226,7 +190,7 @@ public class HearthstoneItem extends Item {
 		if (lodestoneTrackerComponent != null) {
 			if( lodestoneTrackerComponent.target().isPresent() ) {
 				BlockPos pos = lodestoneTrackerComponent.target().get().pos();
-				String dimensionName = StringUtil.capitalizeAll( lodestoneTrackerComponent.target().get().dimension().getValue().getPath().toLowerCase().replace("the_","") );
+				String dimensionName = StringUtil.capitalize( lodestoneTrackerComponent.target().get().dimension().getValue().getPath().toLowerCase() );
 				
 				String boundTo = Text.translatable("item.villagerunknown-innsandinnkeepers.hearthstone.tooltip.boundto").getString();
 				tooltip.addLast( Text.of( "(" + boundTo + ": " + dimensionName + " @ "  + pos.getX() + " " + pos.getY() + " " + pos.getZ() + ")" ) );
