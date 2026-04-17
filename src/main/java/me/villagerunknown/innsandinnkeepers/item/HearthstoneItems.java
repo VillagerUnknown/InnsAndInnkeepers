@@ -22,11 +22,11 @@ public class HearthstoneItems {
 	
 	static{
 		HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,HEARTHSTONE_STRING))) ) );
-		RED_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "red_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,HEARTHSTONE_STRING))) ) );
-		GREEN_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "green_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,HEARTHSTONE_STRING))) ) );
-		YELLOW_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "yellow_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,HEARTHSTONE_STRING))) ) );
-		ORANGE_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "orange_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,HEARTHSTONE_STRING))) ) );
-		PURPLE_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "purple_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,HEARTHSTONE_STRING))) ) );
+		RED_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "red_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,"red_" + HEARTHSTONE_STRING))) ) );
+		GREEN_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "green_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,"green_" + HEARTHSTONE_STRING))) ) );
+		YELLOW_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "yellow_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,"yellow_" + HEARTHSTONE_STRING))) ) );
+		ORANGE_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "orange_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,"orange_" + HEARTHSTONE_STRING))) ) );
+		PURPLE_HEARTHSTONE_ITEM = hearthstoneItemFeature.registerHearthstoneItem( "purple_" + HEARTHSTONE_STRING, new HearthstoneItem( new Item.Settings().maxCount(1).registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID,"purple_" + HEARTHSTONE_STRING))) ) );
 	}
 	
 }
