@@ -170,4 +170,5 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler {
 	public boolean canInsertIntoSlot(int index) {
 		return index != 1;
 	}
+	
 }
