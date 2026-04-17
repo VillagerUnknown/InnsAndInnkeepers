@@ -39,6 +39,7 @@ import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -143,7 +144,10 @@ public class HearthstoneItem extends Item {
 								EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 20, 0.05, -0.05, 0.05, 0.05);
 								
 								if( user instanceof PlayerEntity player ) {
-									player.getItemCooldownManager().set(Identifier.of(MOD_ID,hearthstoneItemFeature.HEARTHSTONE_STRING), COOLDOWN_TIME);
+									for (Item hearthstoneItem : hearthstoneItemFeature.HEARTHSTONE_ITEMS) {
+										Identifier hearthstoneGroup = player.getItemCooldownManager().getGroup(hearthstoneItem.getDefaultStack());
+										player.getItemCooldownManager().set(hearthstoneGroup, COOLDOWN_TIME);
+									} // for
 									player.incrementStat(Stats.USED.getOrCreateStat(this));
 								} // if
 							} else {
