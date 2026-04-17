@@ -150,7 +150,7 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler {
 	}
 	
 	public boolean isBurning() {
-		return true;
+		return this.propertyDelegate.get(0) > 0;
 	}
 	
 	@Override
