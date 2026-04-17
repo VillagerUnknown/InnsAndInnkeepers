@@ -101,7 +101,7 @@ public class fireplaceBlockFeature {
 		
 		Identifier id = Identifier.of(MOD_ID,blockName);
 		
-		RegistryUtil.addItemToGroup( ItemGroups.FUNCTIONAL, RegistryUtil.registerItem( blockName, new BlockItem( block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)) ), MOD_ID ) );
+		RegistryUtil.addItemToGroup( Innsandinnkeepers.CUSTOM_ITEM_GROUP_KEY, RegistryUtil.registerItem( blockName, new BlockItem( block, new Item.Settings().useBlockPrefixedTranslationKey().registryKey(RegistryKey.of(RegistryKeys.ITEM, id)) ), MOD_ID ) );
 		
 		BLOCKS.put( blockName, RegistryUtil.registerBlock( blockName, block, MOD_ID ) );
 	}
