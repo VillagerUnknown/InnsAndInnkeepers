@@ -69,7 +69,7 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 		this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(LIT, true));
 	}
 	
-	public FireplaceBlock(AbstractBlock.Settings settings) {
+	public FireplaceBlock(Settings settings) {
 		super(settings);
 		this.setDefaultState((BlockState)(this.stateManager.getDefaultState()).with(LIT, true));
 	}
