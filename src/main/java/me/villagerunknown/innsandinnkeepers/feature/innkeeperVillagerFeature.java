@@ -11,9 +11,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.TradedItem;
+import net.minecraft.village.VillagerProfession;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -43,8 +46,10 @@ public class innkeeperVillagerFeature {
 	}
 	
 	private static void registerVillagerTrades() {
+		RegistryKey<VillagerProfession> professionRegistryKey = RegistryKey.of(Registries.VILLAGER_PROFESSION.getKey(), INNKEEPER.IDENTIFIER );
+		
 		// # Level 1
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER.PROFESSION, 1, f -> {
+		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 1, f -> {
 			if( Innsandinnkeepers.CONFIG.enableHearthstoneTrade ) {
 				Optional<Item> optionalHearthstoneItem = hearthstoneItemFeature.HEARTHSTONE_ITEMS.stream().findAny();
 				Item hearthstoneItem;
@@ -65,14 +70,14 @@ public class innkeeperVillagerFeature {
 		} );
 		
 		// # Level 2
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER.PROFESSION, 2, f -> {
+		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 2, f -> {
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BAKED_POTATO, 6 ) ) );
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BREAD, 6 ) ) );
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BEETROOT_SOUP, 6 ) ) );
 		} );
 		
 		// # Level 3
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER.PROFESSION, 3, f -> {
+		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 3, f -> {
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_COD, 6 ) ) );
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_SALMON, 6 ) ) );
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_RABBIT, 6 ) ) );
@@ -83,7 +88,7 @@ public class innkeeperVillagerFeature {
 		} );
 		
 		// # Level 4
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER.PROFESSION, 4, f -> {
+		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 4, f -> {
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_BEEF, 6 ) ) );
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_MUTTON, 6 ) ) );
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_PORKCHOP, 6 ) ) );
@@ -92,7 +97,7 @@ public class innkeeperVillagerFeature {
 		} );
 		
 		// # Level 5
-		TradeOfferHelper.registerVillagerOffers( INNKEEPER.PROFESSION, 5, f -> {
+		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 5, f -> {
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 16 ), new ItemStack( Items.GOLDEN_CARROT, 6 ) ) );
 			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 16 ), PotionsUtil.LONG_REGENERATION_POTION ) );
 			

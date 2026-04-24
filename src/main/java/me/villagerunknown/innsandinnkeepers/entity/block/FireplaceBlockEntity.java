@@ -54,6 +54,11 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	int cookTime;
 	int cookTimeTotal;
 	
+	int litTimeRemaining;
+	int litTotalTime;
+	int cookingTimeSpent;
+	int cookingTotalTime;
+	
 	protected DefaultedList<ItemStack> inventory;
 	protected final PropertyDelegate propertyDelegate;
 	private final Object2IntOpenHashMap<Identifier> recipesUsed;
@@ -206,10 +211,10 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 			
 			Random random = Random.create();
 			
-			world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
+			world.addParticleClient( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
 			
 			if( e > (double) FireplaceBlock.MAX_BLOCKS_SMOKE_PASSES_THROUGH / 2 ) {
-				world.addParticle( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
+				world.addParticleClient( particleType, (double) d + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), e + 0.1 + random.nextDouble(), f + random.nextDouble() / 3.0 * (double)(random.nextBoolean() ? 1 : -1), 0.0, 0.07, 0.0);
 			} // if
 		} // if
 	}
@@ -271,26 +276,17 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		return (Integer)furnace.matchGetter.getFirstMatch(singleStackRecipeInput, (ServerWorld) world).map((recipe) -> recipe.value().getCookingTime()).orElse(200) * 2;
 	}
 	
-	protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.readNbt(nbt, registryLookup);
+	protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
+		super.readNbt(nbt, registries);
+		
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
-		Inventories.readNbt(nbt, this.inventory, registryLookup);
-		this.burnTime = nbt.getShort("BurnTime");
-		this.cookTime = nbt.getShort("CookTime");
-		this.cookTimeTotal = nbt.getShort("CookTimeTotal");
-		if( null != world ) {
-			this.fuelTime = this.getFuelTime(world.getFuelRegistry(), new ItemStack(fireplaceBlockFeature.DEFAULT_FUEL));
-		} else {
-			this.fuelTime = 0;
-		}
-		NbtCompound nbtCompound = nbt.getCompound("RecipesUsed");
-		Iterator var4 = nbtCompound.getKeys().iterator();
 		
-		while(var4.hasNext()) {
-			String string = (String)var4.next();
-			this.recipesUsed.put(Identifier.of(string), nbtCompound.getInt(string));
-		}
-		
+		Inventories.readNbt(nbt, this.inventory, registries);
+		this.cookingTimeSpent = nbt.getShort("cooking_time_spent", (short)0);
+		this.cookingTotalTime = nbt.getShort("cooking_total_time", (short)0);
+		this.litTimeRemaining = nbt.getShort("lit_time_remaining", (short)0);
+		this.litTotalTime = nbt.getShort("lit_total_time", (short)0);
+		this.recipesUsed.clear();
 	}
 	
 	protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
@@ -347,12 +343,12 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	}
 	
 	public void provideRecipeInputs(RecipeMatcher finder) {
-		Iterator var2 = this.inventory.iterator();
-		
-		while(var2.hasNext()) {
-			ItemStack itemStack = (ItemStack)var2.next();
-			finder.add( itemStack, itemStack.getCount() );
-		}
+//		Iterator var2 = this.inventory.iterator();
+//
+//		while(var2.hasNext()) {
+//			ItemStack itemStack = (ItemStack)var2.next();
+//			finder.add( itemStack, itemStack.getCount() );
+//		}
 		
 	}
 	
