@@ -8,9 +8,14 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.LodestoneTrackerComponent;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
+import static me.villagerunknown.innsandinnkeepers.Innsandinnkeepers.MOD_ID;
 import static me.villagerunknown.innsandinnkeepers.item.HearthstoneItems.HEARTHSTONE_ITEM;
 
 public class InnsandinnkeepersClient implements ClientModInitializer {
@@ -27,7 +32,7 @@ public class InnsandinnkeepersClient implements ClientModInitializer {
 	
 	private static void registerHearthstoneItemTooltips() {
 		ItemTooltipCallback.EVENT.register((stack, tooltipContext, tooltipType, list) -> {
-			if (!stack.isOf( HEARTHSTONE_ITEM )) {
+			if (!stack.isIn( TagKey.of( RegistryKeys.ITEM, Identifier.of(MOD_ID, "hearthstone") ) )) {
 				return;
 			}
 			
