@@ -2,6 +2,7 @@ package me.villagerunknown.innsandinnkeepers.client.screen;
 
 import me.villagerunknown.innsandinnkeepers.client.screen.recipebook.FireplaceRecipeBookWidget;
 import me.villagerunknown.innsandinnkeepers.screen.FireplaceScreenHandler;
+import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.ScreenPos;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -51,16 +52,16 @@ public class FireplaceScreen extends RecipeBookScreen<FireplaceScreenHandler> {
 	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
 		int i = this.x;
 		int j = this.y;
-		context.drawTexture(RenderLayer::getGuiTextured, this.background, i, j, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
+		context.drawTexture(RenderPipelines.GUI_TEXTURED, this.background, i, j, 0.0F, 0.0F, this.backgroundWidth, this.backgroundHeight, 256, 256);
 		
 		int l;
 		if ((this.handler).isBurning()) {
 			l = MathHelper.ceil((this.handler).getFuelProgress() * 13.0F) + 1;
-			context.drawGuiTexture(RenderLayer::getGuiTextured, this.litProgressTexture, 14, 14, 0, 14 - l, i + 56, j + 36 + 24 - l, 14, l);
+			context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, this.litProgressTexture, 14, 14, 0, 14 - l, i + 56, j + 36 + 24 - l, 14, l);
 		}
 
 		l = MathHelper.ceil((this.handler).getCookProgress() * 24.0F);
-		context.drawGuiTexture(RenderLayer::getGuiTextured, this.burnProgressTexture, 24, 16, 0, 0, i + 79, j + 34, l, 16);
+		context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, this.burnProgressTexture, 24, 16, 0, 0, i + 79, j + 34, l, 16);
 	}
 	
 	protected ScreenPos getRecipeBookButtonPos() {

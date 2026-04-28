@@ -1,10 +1,8 @@
 package me.villagerunknown.innsandinnkeepers.entity.block;
 
 import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
-import it.unimi.dsi.fastutil.objects.Reference2IntMap;
+import com.mojang.serialization.Codec;
+import it.unimi.dsi.fastutil.objects.*;
 import me.villagerunknown.innsandinnkeepers.Innsandinnkeepers;
 import me.villagerunknown.innsandinnkeepers.block.FireplaceBlock;
 import me.villagerunknown.innsandinnkeepers.feature.fireplaceBlockFeature;
@@ -32,6 +30,8 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -46,6 +46,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	
@@ -61,8 +62,10 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	
 	protected DefaultedList<ItemStack> inventory;
 	protected final PropertyDelegate propertyDelegate;
-	private final Object2IntOpenHashMap<Identifier> recipesUsed;
+	private final Reference2IntOpenHashMap<RegistryKey<Recipe<?>>> recipesUsed;
 	private final ServerRecipeManager.MatchGetter<SingleStackRecipeInput, ? extends AbstractCookingRecipe> matchGetter;
+	
+	private static final Codec<Map<RegistryKey<Recipe<?>>, Integer>> CODEC;
 	
 	public FireplaceBlockEntity(BlockPos pos, BlockState state) {
 		super(fireplaceBlockFeature.FIREPLACE_BLOCK_ENTITY, pos, state, RecipeType.SMOKING);
@@ -103,7 +106,7 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 				return 4;
 			}
 		};
-		this.recipesUsed = new Object2IntOpenHashMap<>();
+		this.recipesUsed = new Reference2IntOpenHashMap();
 		this.matchGetter = ServerRecipeManager.createCachedMatchGetter(RecipeType.SMOKING);
 	}
 	
@@ -276,30 +279,31 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 		return (Integer)furnace.matchGetter.getFirstMatch(singleStackRecipeInput, (ServerWorld) world).map((recipe) -> recipe.value().getCookingTime()).orElse(200) * 2;
 	}
 	
-	protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-		super.readNbt(nbt, registries);
+	protected void readData(ReadView view) {
+		super.readData(view);
 		
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 		
-		Inventories.readNbt(nbt, this.inventory, registries);
-		this.cookingTimeSpent = nbt.getShort("cooking_time_spent", (short)0);
-		this.cookingTotalTime = nbt.getShort("cooking_total_time", (short)0);
-		this.litTimeRemaining = nbt.getShort("lit_time_remaining", (short)0);
-		this.litTotalTime = nbt.getShort("lit_total_time", (short)0);
+		Inventories.readData(view, this.inventory);
+		this.cookingTimeSpent = view.getShort("cooking_time_spent", (short)0);
+		this.cookingTotalTime = view.getShort("cooking_total_time", (short)0);
+		this.litTimeRemaining = view.getShort("lit_time_remaining", (short)0);
+		this.litTotalTime = view.getShort("lit_total_time", (short)0);
 		this.recipesUsed.clear();
+		this.recipesUsed.putAll((Map)view.read("RecipesUsed", CODEC).orElse(Map.of()));
 	}
 	
-	protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-		super.writeNbt(nbt, registryLookup);
-		nbt.putShort("BurnTime", (short)this.burnTime);
-		nbt.putShort("CookTime", (short)this.cookTime);
-		nbt.putShort("CookTimeTotal", (short)this.cookTimeTotal);
-		Inventories.writeNbt(nbt, this.inventory, registryLookup);
+	protected void writeData(WriteView view) {
+		super.writeData(view);
+		view.putShort("BurnTime", (short)this.burnTime);
+		view.putShort("CookTime", (short)this.cookTime);
+		view.putShort("CookTimeTotal", (short)this.cookTimeTotal);
+		Inventories.writeData(view, this.inventory);
 		NbtCompound nbtCompound = new NbtCompound();
 		this.recipesUsed.forEach((identifier, count) -> {
 			nbtCompound.putInt(identifier.toString(), count);
 		});
-		nbt.put("RecipesUsed", nbtCompound);
+		view.put("RecipesUsed", CODEC, this.recipesUsed);
 	}
 	
 	public int[] getAvailableSlots(Direction side) {
@@ -336,20 +340,15 @@ public class FireplaceBlockEntity extends AbstractFurnaceBlockEntity {
 	}
 	
 	public void setLastRecipe(@Nullable RecipeEntry<?> recipe) {
-		if (recipe != null) {
-			RegistryKey<Recipe<?>> registryKey = recipe.id();
-			this.recipesUsed.addTo(registryKey.getValue(), 1);
-		}
+		super.setLastRecipe(recipe);
 	}
 	
-	public void provideRecipeInputs(RecipeMatcher finder) {
-//		Iterator var2 = this.inventory.iterator();
-//
-//		while(var2.hasNext()) {
-//			ItemStack itemStack = (ItemStack)var2.next();
-//			finder.add( itemStack, itemStack.getCount() );
-//		}
-		
+	public void provideRecipeInputs(RecipeFinder finder) {
+		super.provideRecipeInputs(finder);
+	}
+	
+	static{
+		CODEC = Codec.unboundedMap(Recipe.KEY_CODEC, Codec.INT);
 	}
 	
 }
