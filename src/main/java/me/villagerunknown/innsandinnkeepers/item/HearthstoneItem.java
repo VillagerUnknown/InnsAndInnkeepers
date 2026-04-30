@@ -56,7 +56,7 @@ public class HearthstoneItem extends Item {
 	
 	@Override
 	public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-		if( !world.isClient ) {
+		if( !world.isClient() ) {
 			if( remainingUseTicks > 0 ) {
 				EntityUtil.spawnParticles( user, 1, ParticleTypes.REVERSE_PORTAL, 1, 0.05, 0.05, 0.05, 0.05);
 			} else {

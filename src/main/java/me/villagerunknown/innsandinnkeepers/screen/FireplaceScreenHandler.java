@@ -39,7 +39,7 @@ public class FireplaceScreenHandler extends AbstractRecipeScreenHandler {
 		checkDataCount(propertyDelegate, 4);
 		this.inventory = inventory;
 		this.propertyDelegate = propertyDelegate;
-		this.world = playerInventory.player.getWorld();
+		this.world = playerInventory.player.getEntityWorld();
 		this.addSlot(new Slot(inventory, 0, 56, 27));
 		this.addSlot(new FurnaceOutputSlot(playerInventory.player, inventory, 1, 116, 35));
 		

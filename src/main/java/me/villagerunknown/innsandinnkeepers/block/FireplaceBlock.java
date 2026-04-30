@@ -114,7 +114,7 @@ public class FireplaceBlock extends AbstractFurnaceBlock {
 			
 			if( changed ) {
 				if( stackInHand.isDamageable() ) {
-					stackInHand.damage(1, player, LivingEntity.getSlotForHand(player.getActiveHand()));
+					stackInHand.damage(1, player, player.getActiveHand().getEquipmentSlot());
 				} else {
 					stackInHand.decrementUnlessCreative(1, player);
 				} // if, else

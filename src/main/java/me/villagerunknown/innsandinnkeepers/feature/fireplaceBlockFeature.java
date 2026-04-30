@@ -69,7 +69,6 @@ public class fireplaceBlockFeature {
 			ParticleTypes.ASH,
 			ParticleTypes.WHITE_ASH,
 			ParticleTypes.PORTAL,
-			ParticleTypes.DRAGON_BREATH,
 			ParticleTypes.END_ROD
 	);
 	
