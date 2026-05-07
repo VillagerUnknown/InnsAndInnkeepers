@@ -27,12 +27,12 @@ public class FireplaceRecipeBookWidget extends RecipeBookWidget<FireplaceScreenH
 	}
 	
 	@Override
-	protected void setBookButtonTexture() {
-		this.toggleCraftableButton.setTextures(TEXTURES);
+	protected ButtonTextures getBookButtonTextures() {
+		return TEXTURES;
 	}
 	
 	@Override
-	protected boolean isValid(Slot slot) {
+	protected boolean isCraftingSlot(Slot slot) {
 		boolean isValid;
 		switch (slot.id) {
 			case 0:

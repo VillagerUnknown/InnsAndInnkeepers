@@ -60,53 +60,53 @@ public class innkeeperVillagerFeature {
 					hearthstoneItem = HearthstoneItems.HEARTHSTONE_ITEM;
 				} // if, else
 				
-				f.add((entity, random) -> VillagerUtil.sellTradeOffer(1, new TradedItem(Items.EMERALD, 6), new ItemStack(hearthstoneItem, 1)));
+				f.add((world, entity, random) -> VillagerUtil.sellTradeOffer(1, new TradedItem(Items.EMERALD, 6), new ItemStack(hearthstoneItem, 1)));
 			} else {
-				f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), ItemStackUtil.createWaterBottleStack() ) );
-				f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), new ItemStack( Items.COOKIE, 3 ) ) );
+				f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), ItemStackUtil.createWaterBottleStack() ) );
+				f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), new ItemStack( Items.COOKIE, 3 ) ) );
 			} // if, else
 			
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), new ItemStack( Items.APPLE, 3 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 1, new TradedItem( Items.EMERALD, 3 ), new ItemStack( Items.APPLE, 3 ) ) );
 		} );
 		
 		// # Level 2
 		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 2, f -> {
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BAKED_POTATO, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BREAD, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BEETROOT_SOUP, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BAKED_POTATO, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BREAD, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 2, new TradedItem( Items.EMERALD, 6 ), new ItemStack( Items.BEETROOT_SOUP, 6 ) ) );
 		} );
 		
 		// # Level 3
 		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 3, f -> {
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_COD, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_SALMON, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_RABBIT, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_CHICKEN, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_COD, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_SALMON, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_RABBIT, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 8 ), new ItemStack( Items.COOKED_CHICKEN, 6 ) ) );
 			
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 6 ), PotionsUtil.HEALING_POTION ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 6 ), PotionsUtil.REGENERATION_POTION ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 6 ), PotionsUtil.HEALING_POTION ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 3, new TradedItem( Items.EMERALD, 6 ), PotionsUtil.REGENERATION_POTION ) );
 		} );
 		
 		// # Level 4
 		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 4, f -> {
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_BEEF, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_MUTTON, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_PORKCHOP, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), PotionsUtil.STRONG_HEALING_POTION ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), PotionsUtil.STRONG_REGENERATION_POTION ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_BEEF, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_MUTTON, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), new ItemStack( Items.COOKED_PORKCHOP, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), PotionsUtil.STRONG_HEALING_POTION ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 4, new TradedItem( Items.EMERALD, 12 ), PotionsUtil.STRONG_REGENERATION_POTION ) );
 		} );
 		
 		// # Level 5
 		TradeOfferHelper.registerVillagerOffers( professionRegistryKey, 5, f -> {
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 16 ), new ItemStack( Items.GOLDEN_CARROT, 6 ) ) );
-			f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 16 ), PotionsUtil.LONG_REGENERATION_POTION ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 16 ), new ItemStack( Items.GOLDEN_CARROT, 6 ) ) );
+			f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 16 ), PotionsUtil.LONG_REGENERATION_POTION ) );
 			
 			if( Innsandinnkeepers.CONFIG.enableGoldenAppleTrade ) {
-				f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 32 ), new ItemStack( Items.GOLDEN_APPLE, 1 ) ) );
+				f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 32 ), new ItemStack( Items.GOLDEN_APPLE, 1 ) ) );
 			} // if
 			
 			if( Innsandinnkeepers.CONFIG.enableEnchantedGoldenAppleTrade ) {
-				f.add( (entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 64 ), new ItemStack( Items.ENCHANTED_GOLDEN_APPLE, 1 ) ) );
+				f.add( (world, entity, random) -> VillagerUtil.sellTradeOffer( 5, new TradedItem( Items.EMERALD, 64 ), new ItemStack( Items.ENCHANTED_GOLDEN_APPLE, 1 ) ) );
 			} // if
 		} );
 	}
